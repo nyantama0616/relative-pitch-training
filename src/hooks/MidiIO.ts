@@ -8,8 +8,8 @@ export function useMidiIO(): IMidiIO {
     const [outputDevices, setOutputDevices] = useState<string[]>([]);
     const [inputMessage, setInputMessage] = useState<IMidiMessage | null>(null);
 
-    let currentInput: Input | null = null; //Inputに使用中のMIDIデバイス
-    let currentOutput: Output | null = null; //Outputに使用中のMIDIデバイス
+    const [currentInput, setCurrentInput] = useState<Input | null>(null); 
+    const [currentOutput, setCurrentOutput] = useState<Output | null>(null); // letじゃなくてstateにしないと、途中でnullになる。なんで？
 
     useEffect(() => {
         WebMidi
@@ -19,8 +19,6 @@ export function useMidiIO(): IMidiIO {
     }, []);
 
     function onEnabled() {
-        console.log("midi enabled!");
-        
         setInputDevices(WebMidi.inputs.map(input => input.name));
         setOutputDevices(WebMidi.outputs.map(output => output.name));
     }
@@ -28,7 +26,7 @@ export function useMidiIO(): IMidiIO {
     function setInput(deviceName: string) {
         currentInput?.removeListener("noteon");
         currentInput?.removeListener("noteoff");
-        currentInput = WebMidi.inputs.find(input => input.name == deviceName) || null;
+        setCurrentInput(WebMidi.inputs.find(input => input.name == deviceName) || null);
         if (!currentInput) return;
 
         currentInput.addListener("noteon", e => {
@@ -42,7 +40,20 @@ export function useMidiIO(): IMidiIO {
     
     function setOutput(deviceName: string) {
         currentOutput?.destroy();
-        currentOutput = WebMidi.outputs.find(output => output.name == deviceName) || null;
+        setCurrentOutput(WebMidi.outputs.find(output => output.name == deviceName) || null);
+        currentOutput?.open();
+    }
+
+    function sendMessage(message: IMidiMessage) {
+        if (message.type == MessageType.On) {
+            // currentOutput?.playNote(message.number, { duration: 200 }); //こうするとドラムなどの変な音が一緒に鳴る
+            currentOutput?.channels[1].playNote(message.number); //これでピアノの音だけ鳴らせる
+            console.log(`on ${message.number}`);
+            
+        } else {
+            console.log(`off ${message.number}`);
+            currentOutput?.channels[1].stopNote(message.number); //TODO: なぜかこれでNoteOffできない
+        }
     }
 
     return {
@@ -50,6 +61,7 @@ export function useMidiIO(): IMidiIO {
         outputDevices,
         setInput,
         setOutput,
-        inputMessage
+        inputMessage,
+        sendMessage
     }
 }

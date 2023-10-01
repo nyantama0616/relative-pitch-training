@@ -6,4 +6,5 @@ export default interface IMidiIO {
     setInput(deviceName: string): void; //Inputに使用するMIDIデバイスを決定
     setOutput(deviceName: string): void; //Outputに使用するMIDIデバイスを決定
     inputMessage: IMidiMessage | null //こいつをstateで管理し、MIDIメッセージをやり取りする
+    sendMessage(message: IMidiMessage): void; //MIDIデバイスにメッセージ送信
 }
