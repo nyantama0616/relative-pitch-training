@@ -6,10 +6,10 @@ import { IMidiMessage, MessageType } from "../interfaces/IMidiMessage";
 export function useMidiIO(): IMidiIO {
     const [inputDevices, setInputDevices] = useState<string[]>([]);
     const [outputDevices, setOutputDevices] = useState<string[]>([]);
-    const [message, setMessage] = useState<IMidiMessage | null>(null);
+    const [inputMessage, setInputMessage] = useState<IMidiMessage | null>(null);
 
-    let currentInput: Input | null = null;
-    let currentOutput: Output | null = null;
+    let currentInput: Input | null = null; //Inputに使用中のMIDIデバイス
+    let currentOutput: Output | null = null; //Outputに使用中のMIDIデバイス
 
     useEffect(() => {
         WebMidi
@@ -32,11 +32,11 @@ export function useMidiIO(): IMidiIO {
         if (!currentInput) return;
 
         currentInput.addListener("noteon", e => {
-            setMessage({type: MessageType.On, number: e.note.number})
+            setInputMessage({type: MessageType.On, number: e.note.number})
         });
         
         currentInput.addListener("noteoff", e => {
-            setMessage({type: MessageType.Off, number: e.note.number})
+            setInputMessage({type: MessageType.Off, number: e.note.number})
         });
     }
     
@@ -50,6 +50,6 @@ export function useMidiIO(): IMidiIO {
         outputDevices,
         setInput,
         setOutput,
-        message
+        inputMessage
     }
 }
