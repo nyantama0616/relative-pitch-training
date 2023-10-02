@@ -1,6 +1,6 @@
 export interface IMidiMessage {
     type: MessageType
-    number: number
+    note: number
     options?: IMessageOption
 }
 
