@@ -1,3 +1,4 @@
+import Note from "../enums/Note"
 export default interface ISoundPlayer {
-    playNote(note: number, duration: number): void
+    playNote(note: Note, duration: number): void
 }
