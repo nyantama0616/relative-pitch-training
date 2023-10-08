@@ -1,3 +1,4 @@
+//Webmidiを用いて音を鳴らす
 import React, { useEffect } from "react";
 import ISoundPlayer from "../interfaces/ISoundPlayer";
 import { MessageType } from "../interfaces/IMidiMessage";
