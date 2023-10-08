@@ -4,19 +4,25 @@ import useQuestionGenerator from "./useQuestionGenerator";
 import { IQuestion } from "../interfaces/IQuestionGenerator";
 import { useMidiIO } from "./useMidiIO";
 import { useSoundPlayerWithMidi } from "./useSoundPlayerWithMidi";
+import useMetronome from "./useMetronome";
+
+interface trainStates {
+    beatCount: number
+    currentQuestion: IQuestion
+}
 
 export default function useTrainingManager(): ITrainingManager {
-    const interval = 500;
+    const interval = 500; //tempo(ms)
+    
+    //hooks
     const questionGenerator = useQuestionGenerator();
     const midiIO = useMidiIO();
     const soundPlayer = useSoundPlayerWithMidi(midiIO);
-    const [currentQuestion, setCurrentQuestion] = useState<IQuestion>();
-    const [beatCount, setBeatCount] = useState<number>(0);
-    const [timer, setTimer] = useState<NodeJS.Timer>();
+    const metronome = useMetronome();
 
-    useEffect(() => {
-        setCurrentQuestion(questionGenerator.generate());
-    }, []);
+    //states
+    const [state, setState] = useState<trainStates>({beatCount: 0, currentQuestion: questionGenerator.generate()});
+    const [timer, setTimer] = useState<NodeJS.Timer>();
 
     useEffect(() => {
         if (midiIO.outputDevices.includes("JUNO-DS")) {
@@ -31,34 +37,51 @@ export default function useTrainingManager(): ITrainingManager {
         }
 
         const t = setInterval(() => {
-            setBeatCount(prevBeatCount => {
-                switch (prevBeatCount % 4) {
+            console.log("interval!");
+            
+            setState(prevState => {
+                const newState = { ...prevState };
+                switch (newState.beatCount % 4) {
                     case 0:
+                        metronome.beat(127);
                         _playNote0();
                         break;
                     case 1:
+                        metronome.beat(40);
                         _playNote1();
                         break;
                     case 2:
+                        metronome.beat(80);
                         console.log("回答0");
                         break;
                     case 3:
+                        metronome.beat(40);
                         console.log("回答1");
-                        setCurrentQuestion(prev => questionGenerator.generate());
+                        newState.currentQuestion = questionGenerator.generate();
                         break;
                 }
-                return prevBeatCount + 1;
+                ++newState.beatCount;
+                return newState;
             });
         }, 500);
         setTimer(t);
     }
 
     function _playNote0() {
-        soundPlayer.playNote(currentQuestion!.note0, interval);
+        console.log("play0");
+        
+        setState(s => {
+            soundPlayer.playNote(s!.currentQuestion.note0, interval);
+            return s;
+        });
     }
     
     function _playNote1() {
-        soundPlayer.playNote(currentQuestion!.note1, interval);
+        console.log("play1");
+        setState(s => {
+            soundPlayer.playNote(s!.currentQuestion.note1, interval);
+            return s;
+        });
     }
 
     return {
