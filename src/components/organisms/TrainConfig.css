@@ -1,0 +1,16 @@
+.train-config {
+    width: 500px;
+    height: 400px;
+    background-color: rgb(245, 245, 252);
+
+    margin-top: 600px; /* とりま、下の方に置いておく */
+}
+
+.update-devices-btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 100px;
+    margin: auto;
+}

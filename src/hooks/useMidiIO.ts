@@ -19,15 +19,14 @@ export function useMidiIO(): IMidiIO {
     }, []);
 
     function onEnabled() {
-        setInputDevices(WebMidi.inputs.map(input => input.name));
-        setOutputDevices(WebMidi.outputs.map(output => output.name));
+        updateAvailableDevices();
     }
 
     function setInput(deviceName: string) {
         currentInput?.removeListener("noteon");
         currentInput?.removeListener("noteoff");
 
-        setCurrentInput(repv => {
+        setCurrentInput(prev => {
             const newInput = WebMidi.inputs.find(input => input.name == deviceName) || null;
             
             if (newInput) {
@@ -45,31 +44,38 @@ export function useMidiIO(): IMidiIO {
     }
     
     function setOutput(deviceName: string) {
-        currentOutput?.destroy();
-        setCurrentOutput(repv => {
+        setCurrentOutput(prev => {
+            prev?.destroy();
             const newOutput = WebMidi.outputs.find(output => output.name == deviceName) || null;
             newOutput?.open();
             return newOutput;
         });
-        
     }
 
     function sendMessage(message: IMidiMessage) {
         if (message.type == MessageType.On) {
             // currentOutput?.playNote(message.number, { duration: 200 }); //こうするとドラムなどの変な音が一緒に鳴る
             const duration = message.options?.duration;
-            currentOutput?.channels[1].playNote(message.note, { duration: duration }); //これでピアノの音だけ鳴らせる
+            currentOutput?.channels[1].playNote(message.note, { duration: duration, attack: 0.6 }); //これでピアノの音だけ鳴らせる
         } else {
             currentOutput?.channels[1].stopNote(message.note); //なぜかこれでNoteOffできない -> なぜかできるようになった
         }        
     }
 
+    function updateAvailableDevices() {
+        setInputDevices(WebMidi.inputs.map(device => device.name));
+        setOutputDevices(WebMidi.outputs.map(device => device.name));
+    }
+
     return {
-        inputDevices,
-        outputDevices,
+        availableInputDevices: inputDevices,
+        availableOutputDevices: outputDevices,
+        currentInputDevice: currentInput?.name || "No Device",
+        currentOutputDevice: currentOutput?.name || "No Device",
         setInput,
         setOutput,
         inputMessage,
-        sendMessage
+        sendMessage,
+        updateAvailableDevices
     }
 }

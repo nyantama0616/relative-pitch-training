@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import TopPage from './components/pages/TopPage';
 import KeyboardTestPage from './components/pages/KeyboardTestPage';
+import TrainingPage from './components/pages/TrainingPage';
+import "./App.css";
 
 function App() {
   return (
@@ -10,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<TopPage/>}></Route>
           <Route path="/keyboard-test" element={<KeyboardTestPage/>}></Route>
+          <Route path="/training" element={<TrainingPage/>}></Route>
         </Routes>
       </Router>
     </div>
