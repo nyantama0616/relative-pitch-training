@@ -6,7 +6,7 @@ export default function useTrainRecorder(trainManager: ITrainingManager): ITrain
     const [duration, setDuration] = useState(0);
     const [timer, setTimer] = useState<NodeJS.Timer | null>(null);
 
-    const interval = 100; //durationを更新する間隔
+    const interval = 34; //durationを更新する間隔
 
     useEffect(() => {
         //setIntervalをリセットする
