@@ -13,6 +13,7 @@ interface TrainStates {
     currentQuestion: IQuestion
     isAnswerable: boolean //ユーザが回答できるか
     isRight: boolean //現在の問題が正解済みかどうか
+    missCount: number
 }
 
 export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
@@ -24,7 +25,7 @@ export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
     const metronome = useMetronome();
 
     //states
-    const [state, setState] = useState<TrainStates>({beatCount: 0, currentQuestion: questionGenerator.generate(), isAnswerable: false, isRight: false});
+    const [state, setState] = useState<TrainStates>({beatCount: 0, currentQuestion: questionGenerator.generate(), isAnswerable: false, isRight: false, missCount: 0});
     const [timer, setTimer] = useState<NodeJS.Timer>();
     const [pushedKeys, setPushedKeys] = useState<Set<Note>>(new Set<Note>()); //TODO: こいつはIMidiIOが管理するべきじゃない？
 
@@ -42,6 +43,8 @@ export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
                         //pushedKeysのサイズが2で、1音目と2音目が同時に押されてたら正解とみなす!
                         if (s.isAnswerable && newKeys.has(s.currentQuestion.note0) && newKeys.has(s.currentQuestion.note1)) {
                             _right();
+                        } else {
+                            _miss();
                         }
                         return s;
                     })
@@ -57,6 +60,8 @@ export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
     function start() {
         if (timer !== undefined) {
             clearInterval(timer);
+            // console.log(`clear ${timer}`);
+            
         }
 
         const t = setInterval(() => {
@@ -69,8 +74,9 @@ export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
                         //現在の問題が正解済みだったら、問題を更新する
                         if (newState.isRight) {
                             newState.currentQuestion = questionGenerator.generate();
-                            newState.isAnswerable = false;
+                            // newState.isAnswerable = false;
                             newState.isRight = false;
+                            newState.missCount = 0;
                         }
 
                         _playNote0();
@@ -91,6 +97,8 @@ export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
                 return newState;
             });
         }, 500);
+        // console.log(`start ${t}`);
+        
         setTimer(t);
     }
 
@@ -117,10 +125,24 @@ export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
         });
     }
 
+    function _miss() {
+        setState(prev => {
+            const newState = { ...prev };
+            ++newState.missCount;
+            return newState;
+        });
+    }
+
+    function _updateQuestion() {
+
+    }
+
     return {
         start,
         beatCount: state.beatCount,
         isAnswerable: state.isAnswerable,
-        isRight: state.isRight
+        isRight: state.isRight,
+        missCount: state.missCount,
+        currentQuestion: state.currentQuestion
     }
 }
