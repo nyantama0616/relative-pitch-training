@@ -156,33 +156,3 @@ const StyledMenuItem = styled(MenuItem)(
   }
   `,
 );
-
-const TriggerButton = styled(MenuButton)(
-    ({ theme }) => `
-  font-family: IBM Plex Sans, sans-serif;
-  font-weight: 600;
-  font-size: 0.875rem;
-  box-sizing: border-box;
-  border-radius: 8px;
-  padding: 8px 16px;
-  line-height: 1.5;
-  background: transparent;
-  border: 1px solid ${theme.palette.mode === 'dark' ? grey[800] : grey[200]};
-  color: ${theme.palette.mode === 'dark' ? blue[300] : blue[500]};
-  cursor: pointer;
-
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 120ms;
-
-  &:hover {
-    background: ${theme.palette.mode === 'dark' ? grey[800] : grey[50]};
-    border-color: ${theme.palette.mode === 'dark' ? grey[600] : grey[300]};
-  }
-
-  &:focus-visible {
-    border-color: ${blue[400]};
-    outline: 3px solid ${theme.palette.mode === 'dark' ? blue[500] : blue[200]};
-  }
-  `,
-);

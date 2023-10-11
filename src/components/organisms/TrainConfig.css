@@ -3,7 +3,10 @@
     height: 400px;
     background-color: rgb(245, 245, 252);
 
-    margin-top: 600px; /* とりま、下の方に置いておく */
+    /* とりま、下の方に置いておく */
+    position: absolute;
+    top: 750px;
+    left: 800px;
 }
 
 .update-devices-btn-container {
