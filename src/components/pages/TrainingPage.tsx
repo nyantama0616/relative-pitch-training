@@ -22,7 +22,7 @@ export default function TrainingPage() {
             <button onClick={_start}>start</button>
             <TrainConfig midiIO={midiIO} />
             <TrainMain trainManager={trainManager} />
-            <TrainRecord trainRecorder={trainRecorder} />
+            <TrainRecord trainManager={trainManager} trainRecorder={trainRecorder} />
         </div>
     )
 }
