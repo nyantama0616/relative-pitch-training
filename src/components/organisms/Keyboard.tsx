@@ -38,9 +38,9 @@ export default function Keyboard({ message }: KeyboardProps) {
             setKeyStates(prev => {
                 const newKeyStates = [...prev];
                 if (message.type == MessageType.On) {
-                    newKeyStates[message.number - 21] = KeyState.Hit;
+                    newKeyStates[message.note - 21] = KeyState.Hit;
                 } else {
-                    newKeyStates[message.number - 21] = KeyState.Normal;
+                    newKeyStates[message.note - 21] = KeyState.Normal;
                 }
                 return newKeyStates;
             });

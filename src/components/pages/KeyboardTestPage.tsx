@@ -1,14 +1,13 @@
 import React, {useEffect} from "react";
-import { useMidiIO } from "../../hooks/MidiIO";
+import { useMidiIO } from "../../hooks/useMidiIO";
 import Keyboard from "../organisms/Keyboard";
 
 export default function KeyboardTestPage() {
     const midiIO = useMidiIO();
 
     useEffect(() => {
-        console.log(midiIO.inputDevices);
         midiIO.setInput("JUNO-DS");
-    }, [midiIO.inputDevices]);
+    }, [midiIO.availableInputDevices]);
 
     return (
         <div className="keyboard-test-page">
