@@ -2,6 +2,7 @@ import ISoundPlayer from "../interfaces/ISoundPlayer";
 import * as Tone from 'tone';
 import Note from "../enums/Note";
 import { useRef, useEffect } from "react";
+import { IMidiMessage, MessageType } from "../interfaces/IMidiMessage";
 
 const samplersMap = {
     A0: "A0.mp3",
@@ -59,7 +60,23 @@ export function useSoundPlayerWithTone(): ISoundPlayer {
         }
         
         const freq = Tone.Midi(note).toFrequency();
-        synthRef.current.triggerAttack(freq);
+        const ms = duration / 1000.0;
+        synthRef.current.triggerAttackRelease(freq, ms);
+    }
+
+    function sendMessage(message: IMidiMessage) {
+        if (!synthRef.current?.loaded) {
+            console.log("not loaded.");
+            return;
+        }
+
+        const freq = Tone.Midi(message.note).toFrequency();
+        
+        if (message.type === MessageType.On) {
+            synthRef.current.triggerAttack(freq);
+        } else {
+            synthRef.current.triggerRelease(freq);
+        }
     }
 
     function _handleLoaded() {
@@ -67,6 +84,7 @@ export function useSoundPlayerWithTone(): ISoundPlayer {
     }
 
     return {
-        playNote
+        playNote,
+        sendMessage
     };
 }

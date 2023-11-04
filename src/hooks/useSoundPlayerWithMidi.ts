@@ -1,7 +1,7 @@
 //Webmidiを用いて音を鳴らす
 import React, { useEffect } from "react";
 import ISoundPlayer from "../interfaces/ISoundPlayer";
-import { MessageType } from "../interfaces/IMidiMessage";
+import { IMidiMessage, MessageType } from "../interfaces/IMidiMessage";
 import IMidiIO from "../interfaces/IMidiIO";
 import Note from "../enums/Note";
 
@@ -10,7 +10,12 @@ export function useSoundPlayerWithMidi(midiIO: IMidiIO): ISoundPlayer {
         midiIO.sendMessage({ type: MessageType.On, note: note, options: { duration: duration } });
     }
 
+    function sendMessage(message: IMidiMessage) {
+
+    }
+
     return {
-        playNote
+        playNote,
+        sendMessage
     }
 }
