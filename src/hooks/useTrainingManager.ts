@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import ITrainingManager from "../interfaces/ITrainingManager";
 import useQuestionGenerator from "./useQuestionGenerator";
 import { IQuestion } from "../interfaces/IQuestionGenerator";
 import { useSoundPlayerWithMidi } from "./useSoundPlayerWithMidi";
+import { useSoundPlayerWithTone } from "./useSoundPlayerWithTone";
 import useMetronome from "./useMetronome";
 import Note from "../enums/Note";
 import { MessageType } from "../interfaces/IMidiMessage";
@@ -17,17 +18,19 @@ interface TrainStates {
 }
 
 export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
-    const interval = 500; //tempo(ms)
+    const INTERVAL = 500; //tempo(ms)
     
     //hooks
     const questionGenerator = useQuestionGenerator();
-    const soundPlayer = useSoundPlayerWithMidi(midiIO);
+    // const soundPlayer = useSoundPlayerWithMidi(midiIO);
+    const soundPlayer = useSoundPlayerWithTone();
     const metronome = useMetronome();
 
     //states
     const [state, setState] = useState<TrainStates>({beatCount: 0, currentQuestion: questionGenerator.generate(), isAnswerable: false, isRight: false, missCount: 0});
-    const [timer, setTimer] = useState<NodeJS.Timer>();
     const [pushedKeys, setPushedKeys] = useState<Set<Note>>(new Set<Note>()); //TODO: こいつはIMidiIOが管理するべきじゃない？
+
+    const timerRef = useRef<NodeJS.Timer | null>(null);
 
     useEffect(() => {
         const msg = midiIO.inputMessage;
@@ -58,13 +61,11 @@ export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
     }, [midiIO.inputMessage]);
 
     function start() {
-        if (timer !== undefined) {
-            clearInterval(timer);
-            // console.log(`clear ${timer}`);
-            
+        if (timerRef.current !== null) {
+            clearInterval(timerRef.current);            
         }
 
-        const t = setInterval(() => {
+        timerRef.current = setInterval(() => {
             setState(prevState => {
                 const newState = { ...prevState };
                 switch (newState.beatCount % 4) {
@@ -97,21 +98,18 @@ export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
                 return newState;
             });
         }, 500);
-        // console.log(`start ${t}`);
-        
-        setTimer(t);
     }
 
     function _playNote0() {
         setState(s => {
-            soundPlayer.playNote(s!.currentQuestion.note0, interval);
+            soundPlayer.playNote(s!.currentQuestion.note0, INTERVAL);
             return s;
         });
     }
     
     function _playNote1() {
         setState(s => {
-            soundPlayer.playNote(s!.currentQuestion.note1, interval);
+            soundPlayer.playNote(s!.currentQuestion.note1, INTERVAL);
             return s;
         });
     }
