@@ -1,34 +1,28 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import ITrainRecorder from "../interfaces/ITrainRecorder";
 import ITrainingManager from "../interfaces/ITrainingManager";
 
 export default function useTrainRecorder(trainManager: ITrainingManager): ITrainRecorder {
     const [duration, setDuration] = useState(0);
-    const [timer, setTimer] = useState<NodeJS.Timer | null>(null);
+    const timerRef = useRef<NodeJS.Timer | null>(null);
 
     const interval = 34; //durationを更新する間隔
 
     useEffect(() => {
         //setIntervalをリセットする
-        if (timer !== null) {
-            clearInterval(timer);
+        if (timerRef.current !== null) {
+            clearInterval(timerRef.current);
         }
 
         if (trainManager.isAnswerable) { //回答開始
-            setDuration(prevDuration => {
-                return 0;
-            });
-            
-            
-            const newTimer = setInterval(() => {
+            setDuration(0);
+            timerRef.current = setInterval(() => {
                 setDuration(prevDuration => {
                     return prevDuration + interval;
                 });
             }, interval);
-
-            setTimer(newTimer);
         } else { //回答終了
-            setTimer(null);
+            timerRef.current = null;
         }
     }, [trainManager.isAnswerable]);
 
