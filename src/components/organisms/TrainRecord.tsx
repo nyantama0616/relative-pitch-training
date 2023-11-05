@@ -5,6 +5,7 @@ import ITrainRecorder from "../../interfaces/ITrainRecorder";
 import { notesToInterval } from "../../utilities/Utility";
 import CompareWithYouYesterday from "./CompareWithYouYesterday";
 import CompareWithYouYesterday2 from "./CompareWithYouYesterday2";
+import TrainingScene from "../three/TrainingScene";
 import "./TrainRecord.css";
 
 interface TrainRecordProps {
@@ -38,7 +39,8 @@ export default function TrainRecord({ trainRecorder, trainManager }: TrainRecord
                 <p>duration: {trainRecorder.record.duration} ms</p>
             </div>
             {/* <CompareWithYouYesterday duration={trainRecorder.record.duration} meanYesterday={1500} /> */}
-            <CompareWithYouYesterday2 duration={trainRecorder.record.duration} meanYesterday={1500} />
+            {/* <CompareWithYouYesterday2 duration={trainRecorder.record.duration} meanYesterday={800} /> */}
+            <TrainingScene trainRecorder={trainRecorder}/>
         </div>
     )
 }
