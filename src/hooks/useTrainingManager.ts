@@ -2,9 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import ITrainingManager from "../interfaces/ITrainingManager";
 import useQuestionGenerator from "./useQuestionGenerator";
 import { IQuestion } from "../interfaces/IQuestionGenerator";
-import { useSoundPlayerWithMidi } from "./useSoundPlayerWithMidi";
 import { useSoundPlayerWithTone } from "./useSoundPlayerWithTone";
-import useMetronome from "./useMetronome";
 import Note from "../enums/Note";
 import { MessageType } from "../interfaces/IMidiMessage";
 import IMidiIO from "../interfaces/IMidiIO";
@@ -22,15 +20,15 @@ export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
     
     //hooks
     const questionGenerator = useQuestionGenerator();
-    // const soundPlayer = useSoundPlayerWithMidi(midiIO);
     const soundPlayer = useSoundPlayerWithTone();
-    const metronome = useMetronome();
 
     //states
     const [state, setState] = useState<TrainStates>({beatCount: 0, currentQuestion: questionGenerator.generate(), isAnswerable: false, isRight: false, missCount: 0});
     const [pushedKeys, setPushedKeys] = useState<Set<Note>>(new Set<Note>()); //TODO: こいつはIMidiIOが管理するべきじゃない？
-
     const timerRef = useRef<NodeJS.Timer | null>(null);
+
+    console.log("render train manager");
+    
 
     useEffect(() => {
         const msg = midiIO.inputMessage;
@@ -60,18 +58,25 @@ export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
         });
     }, [midiIO.inputMessage]);
 
+    //鍵盤押すと音が鳴るってのをここでやってる TODO: 別の場所でやるべきだと思う
+    useEffect(() => {
+        if (midiIO.inputMessage) {
+            soundPlayer.sendMessage(midiIO.inputMessage);
+        }
+    }, [midiIO.inputMessage]);
+
     function start() {
         if (timerRef.current !== null) {
             clearInterval(timerRef.current);            
         }
 
         timerRef.current = setInterval(() => {
+            console.log("beat!");
+            
             setState(prevState => {
                 const newState = { ...prevState };
                 switch (newState.beatCount % 4) {
                     case 0:
-                        metronome.beat(80);
-                        
                         //現在の問題が正解済みだったら、問題を更新する
                         if (newState.isRight) {
                             newState.currentQuestion = questionGenerator.generate();
@@ -80,38 +85,36 @@ export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
                             newState.missCount = 0;
                         }
 
-                        _playNote0();
+                        _playNote0(newState);
                         break;
                     case 1:
-                        metronome.beat(40);
-                        _playNote1();
+                        _playNote1(newState);
                         newState.isAnswerable = true;
                         break;
                     case 2:
-                        metronome.beat(80);
                         break;
                     case 3:
-                        metronome.beat(127);
                         break;
                 }
                 ++newState.beatCount;
                 return newState;
             });
-        }, 500);
+        }, INTERVAL);
     }
 
-    function _playNote0() {
-        setState(s => {
-            soundPlayer.playNote(s!.currentQuestion.note0, INTERVAL);
-            return s;
-        });
+    function stop() {
+        if (timerRef.current !== null) {
+            clearInterval(timerRef.current);
+        }
+        timerRef.current = null;
+    }
+
+    function _playNote0(_state: TrainStates) {
+        soundPlayer.playNote(_state.currentQuestion.note0, INTERVAL);
     }
     
-    function _playNote1() {
-        setState(s => {
-            soundPlayer.playNote(s!.currentQuestion.note1, INTERVAL);
-            return s;
-        });
+    function _playNote1(_state: TrainStates) {
+        soundPlayer.playNote(_state.currentQuestion.note1, INTERVAL);
     }
 
     function _right() {
@@ -137,6 +140,7 @@ export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
 
     return {
         start,
+        stop,
         beatCount: state.beatCount,
         isAnswerable: state.isAnswerable,
         isRight: state.isRight,

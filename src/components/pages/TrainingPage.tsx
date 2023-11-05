@@ -16,10 +16,15 @@ export default function TrainingPage() {
         trainManager.start();
     }
 
+    function _stop() {
+        trainManager.stop();
+    }
+
     return (
         <div className="train-page">
             <h1>Training Page</h1>
             <button onClick={_start}>start</button>
+            <button onClick={_stop}>stop</button>
             <TrainConfig midiIO={midiIO} />
             <TrainMain trainManager={trainManager} />
             <TrainRecord trainManager={trainManager} trainRecorder={trainRecorder} />
