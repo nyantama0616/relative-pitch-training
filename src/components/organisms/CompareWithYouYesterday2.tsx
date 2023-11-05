@@ -6,7 +6,7 @@ interface CompareWithYouYesterdayProps {
     meanYesterday: number
 }
 export default function CompareWithYouYesterday2({ duration, meanYesterday }: CompareWithYouYesterdayProps) {
-    const color = duration < meanYesterday ? "rgb(163, 249, 170)" : 'rgb(249, 67, 67)';
+    const color = duration < meanYesterday ? "rgb(4, 190, 4)" : 'rgb(249, 67, 67)';
     const series = [
         {
             name: "Temperature in Fahrenheit", //will be displayed on the y-axis
