@@ -20,14 +20,19 @@ export default function TrainingPage() {
         trainManager.stop();
     }
 
+    function _save() {
+        trainRecorder.save();
+    }
+
     return (
         <div className="train-page">
             <h1>Training Page</h1>
             <button onClick={_start}>start</button>
             <button onClick={_stop}>stop</button>
+            <button onClick={_save}>save</button>
             <TrainConfig midiIO={midiIO} />
             <TrainMain trainManager={trainManager} />
             <TrainRecord trainManager={trainManager} trainRecorder={trainRecorder} />
         </div>
-    )
+    );
 }

@@ -19,6 +19,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/three": "^0.158.1",
     "@types/webmidi": "^2.0.8",
+    "axios": "^1.6.0",
     "chart.js": "^4.4.0",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",

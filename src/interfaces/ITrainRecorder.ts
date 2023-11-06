@@ -3,6 +3,7 @@ import Note from "../enums/Note";
 
 export default interface ITrainRecorder {
     record: IQuestionRecord
+    save(): void
 }
 
 export interface IQuestionRecord {
