@@ -21,11 +21,12 @@ interface TrainConfigProps {
 
 export default function TrainConfig({ midiIO }: TrainConfigProps) {
     useEffect(() => {
-        midiIO.setInput("JUNO-DS");
+        midiIO.setInput("Roland A-49");
+        
     }, [midiIO.availableInputDevices]);
     
     useEffect(() => {
-        midiIO.setOutput("JUNO-DS");
+        midiIO.setOutput("Roland A-49");
     }, [midiIO.availableOutputDevices]);
 
     //Input用メニュー

@@ -53,7 +53,6 @@ export function useSoundPlayerWithTone(): ISoundPlayer {
     }, []);
 
     function playNote(note: Note, duration: number) {
-        console.log(`play note with tone ${note}`);
         if (!synthRef.current?.loaded) {
             console.log("not loaded.");
             return;
