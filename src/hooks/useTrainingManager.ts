@@ -15,6 +15,14 @@ interface TrainStates {
     missCount: number
 }
 
+const initialTrainState: TrainStates = {
+    beatCount: 0,
+    currentQuestion: {note0: Note.C4, note1: Note.C4},
+    isAnswerable: false,
+    isRight: true,
+    missCount: 0,
+}
+
 export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
     const INTERVAL = 500; //tempo(ms)
     
@@ -23,12 +31,9 @@ export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
     const soundPlayer = useSoundPlayerWithTone();
 
     //states
-    const [state, setState] = useState<TrainStates>({beatCount: 0, currentQuestion: questionGenerator.generate(), isAnswerable: false, isRight: false, missCount: 0});
+    const [state, setState] = useState<TrainStates>(initialTrainState);
     const [pushedKeys, setPushedKeys] = useState<Set<Note>>(new Set<Note>()); //TODO: こいつはIMidiIOが管理するべきじゃない？
     const timerRef = useRef<NodeJS.Timer | null>(null);
-
-    console.log("render train manager");
-    
 
     useEffect(() => {
         const msg = midiIO.inputMessage;
@@ -71,18 +76,13 @@ export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
         }
 
         timerRef.current = setInterval(() => {
-            console.log("beat!");
-            
             setState(prevState => {
                 const newState = { ...prevState };
                 switch (newState.beatCount % 4) {
                     case 0:
                         //現在の問題が正解済みだったら、問題を更新する
                         if (newState.isRight) {
-                            newState.currentQuestion = questionGenerator.generate();
-                            // newState.isAnswerable = false;
-                            newState.isRight = false;
-                            newState.missCount = 0;
+                            _updateQuestion(newState);
                         }
 
                         _playNote0(newState);
@@ -134,8 +134,10 @@ export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
         });
     }
 
-    function _updateQuestion() {
-
+    function _updateQuestion(_state: TrainStates) {
+        _state.currentQuestion = questionGenerator.generate();
+        _state.isRight = false;
+        _state.missCount = 0;
     }
 
     return {
