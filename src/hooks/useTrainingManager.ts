@@ -89,7 +89,10 @@ export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
                         break;
                     case 1:
                         _playNote1(newState);
-                        newState.isAnswerable = true;
+                        if (!newState.isRight) {
+                            newState.isAnswerable = true;
+                        }
+                        
                         break;
                     case 2:
                         break;
