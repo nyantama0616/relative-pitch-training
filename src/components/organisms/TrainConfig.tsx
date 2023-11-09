@@ -20,13 +20,14 @@ interface TrainConfigProps {
 }
 
 export default function TrainConfig({ midiIO }: TrainConfigProps) {
+    const midiDevice = "Rokand JUNO-DS";
     useEffect(() => {
-        midiIO.setInput("Roland A-49");
+        midiIO.setInput(midiDevice);
         
     }, [midiIO.availableInputDevices]);
     
     useEffect(() => {
-        midiIO.setOutput("Roland A-49");
+        midiIO.setOutput(midiDevice);
     }, [midiIO.availableOutputDevices]);
 
     //Input用メニュー
