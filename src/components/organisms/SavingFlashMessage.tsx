@@ -1,6 +1,6 @@
 import { BasicStatus } from "../../interfaces/ITrainRecordSaver";
 import ReactLoading from "react-loading";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { IconContext } from 'react-icons'
 import { FaSkullCrossbones } from "react-icons/fa";
 import { BsCheckCircle } from "react-icons/bs";
@@ -11,31 +11,36 @@ interface SavingFlashMessageProps {
     message: string
 }
 
-export default function SavingFlashMessage({ status, message }: SavingFlashMessageProps) {
-    const iconRef = useRef<JSX.Element | null>(null);
-    const backgroundColorRef = useRef("");
+interface Memo {
+    backgroundColor: string
+    icon: JSX.Element | null,
+}
 
-    useEffect(() => {
+export default function SavingFlashMessage({ status, message }: SavingFlashMessageProps) {
+    const memo = useMemo(() => {
         switch (status) {
             case BasicStatus.Doing:
-                backgroundColorRef.current = "#dddddd";
-                iconRef.current = <ReactLoading type="spin" height={100} width={100} />
-                break;
+                return {
+                    backgroundColor: "#dddddd",
+                    icon: <ReactLoading type="spin" height={100} width={100} />
+                }
             case BasicStatus.Success:
-                backgroundColorRef.current = "#55ff55";
-                iconRef.current = <BsCheckCircle />
-                break;
+                return {
+                    backgroundColor: "#77ff77",
+                    icon: <BsCheckCircle />
+                }
             case BasicStatus.Failed:
-                backgroundColorRef.current = "#ff5555";
-                iconRef.current = <FaSkullCrossbones />
-                break;
+                return {
+                    backgroundColor: "#ff5555",
+                    icon: <FaSkullCrossbones />
+                }
         }
     }, [status]);
 
     if (status === BasicStatus.None) return null;
 
     const style = {
-        backgroundColor: backgroundColorRef.current
+        backgroundColor: memo?.backgroundColor
     }
 
     const iconStyle = {
@@ -45,7 +50,7 @@ export default function SavingFlashMessage({ status, message }: SavingFlashMessa
     return (
         <div className="saving-flash-message" style={style}>
             <IconContext.Provider value={iconStyle}>
-                {iconRef.current}
+                {memo?.icon}
             </IconContext.Provider>
             <div className="message">
                 <h3>{message}</h3>
