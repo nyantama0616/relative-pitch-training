@@ -1,10 +1,9 @@
 import {useEffect, useRef, useState} from "react";
 import ITrainRecorder, {IQuestionRecord} from "../interfaces/ITrainRecorder";
 import ITrainingManager from "../interfaces/ITrainingManager";
-import axios from "axios";
-import requests from "../requests";
+import ITrainRecordSaver from "../interfaces/ITrainRecordSaver";
 
-export default function useTrainRecorder(trainManager: ITrainingManager): ITrainRecorder {
+export default function useTrainRecorder(trainManager: ITrainingManager, trainRecordSaver: ITrainRecordSaver): ITrainRecorder {
     const [duration, setDuration] = useState(0);
     const timerRef = useRef<NodeJS.Timer | null>(null);
     const recordsRef = useRef<IQuestionRecord[]>([]);
@@ -54,11 +53,7 @@ export default function useTrainRecorder(trainManager: ITrainingManager): ITrain
 
     function save() {
         console.log(recordsRef.current);
-        axios
-            .post(requests.postRecords, { json: recordsRef.current })
-            .then(res => {
-                console.log(res.data);
-            });
+        trainRecordSaver.save(recordsRef.current);
     }
 
     return {

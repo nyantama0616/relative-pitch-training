@@ -8,13 +8,16 @@ import TrainRecord from "../organisms/TrainRecord";
 import "./TrainingPage.css";
 import useKeyPressManager from "../../hooks/useKeyPressManager";
 import { useMidiIOMock } from "../../hooks/mocks/useMidiIOMock";
+import useTrainRecordSaver from "../../hooks/useTrainRecordSaver";
 
 export default function TrainingPage() {
     const keyPressManager = useKeyPressManager();
     const midiIO = useMidiIOMock(keyPressManager);
     // const midiIO = useMidiIO();
     const trainManager = useTrainingManager(midiIO);
-    const trainRecorder = useTrainRecorder(trainManager);
+
+    const trainRecorderSaver = useTrainRecordSaver();
+    const trainRecorder = useTrainRecorder(trainManager, trainRecorderSaver);
 
     const trainingPageRef = useRef<HTMLDivElement | null>(null);
 
