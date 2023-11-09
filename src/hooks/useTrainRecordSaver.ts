@@ -4,24 +4,42 @@ import { IQuestionRecord } from "../interfaces/ITrainRecorder";
 import requests from "../requests";
 import axios from "axios";
 
+interface State {
+    status: BasicStatus,
+    message: string
+}
+
+const initialState: State = {
+    status: BasicStatus.None,
+    message: ""
+}
 export default function useTrainRecordSaver(): ITrainRecordSaver {
-    const [status, setStatus] = useState<BasicStatus>(BasicStatus.None);
+    const [state, setState] = useState<State>(initialState);
     
     function save(record: IQuestionRecord[]) {
-        setStatus(BasicStatus.Doing);
+        setState({
+            status: BasicStatus.Doing,
+            message: "セーブ中です"
+        });
         axios
             .post(requests.postRecords, { json: record })
             .then(res => {
                 console.log("success!!");
-                setStatus(BasicStatus.Success);
+                setState({
+                    status: BasicStatus.Success,
+                    message: "セーブ完了！"
+                });
             })
             .catch(res => {
-                setStatus(BasicStatus.Failed);
+                setState({
+                    status: BasicStatus.Failed,
+                    message: "セーブに失敗しました。。。"
+                });
             });
     }
 
     return {
-        status,
-        save
+        ...state,
+        save,
     }
 }

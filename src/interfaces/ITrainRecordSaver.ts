@@ -6,6 +6,7 @@ import { IQuestionRecord } from "./ITrainRecorder"
 export default interface ITrainRecordSaver {
     save(record: IQuestionRecord[]): void
     status: BasicStatus
+    message: string
 }
 
 export enum BasicStatus {
