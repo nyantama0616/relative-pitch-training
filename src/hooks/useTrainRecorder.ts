@@ -3,12 +3,13 @@ import ITrainRecorder, {IQuestionRecord} from "../interfaces/ITrainRecorder";
 import ITrainingManager from "../interfaces/ITrainingManager";
 import ITrainRecordSaver from "../interfaces/ITrainRecordSaver";
 
+const INTERVAL = 34; //durationを更新する間隔
+
 export default function useTrainRecorder(trainManager: ITrainingManager, trainRecordSaver: ITrainRecordSaver): ITrainRecorder {
     const [duration, setDuration] = useState(0);
     const timerRef = useRef<NodeJS.Timer | null>(null);
     const recordsRef = useRef<IQuestionRecord[]>([]);
 
-    const interval = 34; //durationを更新する間隔
 
     useEffect(() => {
         if (trainManager.isAnswerable) { //回答開始
@@ -26,9 +27,9 @@ export default function useTrainRecorder(trainManager: ITrainingManager, trainRe
         setDuration(0);
         timerRef.current = setInterval(() => {
             setDuration(prevDuration => {
-                return prevDuration + interval;
+                return prevDuration + INTERVAL;
             });
-        }, interval);
+        }, INTERVAL);
     }
 
     function _endSet() {
