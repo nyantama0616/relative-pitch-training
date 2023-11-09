@@ -1,0 +1,12 @@
+.saving-flash-message {
+    width: 600px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.saving-flash-message .message {
+    color: black;
+    width: 70%;
+}

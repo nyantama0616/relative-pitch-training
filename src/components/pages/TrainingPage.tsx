@@ -9,6 +9,7 @@ import "./TrainingPage.css";
 import useKeyPressManager from "../../hooks/useKeyPressManager";
 import { useMidiIOMock } from "../../hooks/mocks/useMidiIOMock";
 import useTrainRecordSaver from "../../hooks/useTrainRecordSaver";
+import SavingFlashMessage from "../organisms/SavingFlashMessage";
 
 export default function TrainingPage() {
     const keyPressManager = useKeyPressManager();
@@ -46,6 +47,7 @@ export default function TrainingPage() {
             <TrainConfig midiIO={midiIO} />
             <TrainMain trainManager={trainManager} />
             <TrainRecord trainManager={trainManager} trainRecorder={trainRecorder} />
+            <SavingFlashMessage status={trainRecorderSaver.status} message={trainRecorderSaver.message} />
         </div>
     );
 }
