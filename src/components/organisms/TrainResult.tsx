@@ -11,21 +11,55 @@ const labelSize = "20px";
 
 
 interface TrainResultProps {
+    prevMissRates: number[],
+    prevAverageReactionRates: number[],
     missRates: number[],
     averageReactionRates: number[]
 }
 
-export default function TrainResult({ missRates, averageReactionRates }: TrainResultProps) {
+export default function TrainResult({ prevMissRates, prevAverageReactionRates, missRates, averageReactionRates }: TrainResultProps) {
+    const prevMissRates100 = prevMissRates.map(missRate => missRate * 100); //誤答率をパーセントにする
     const missRates100 = missRates.map(missRate => missRate * 100); //誤答率をパーセントにする
 
-    const series = [
+    const maxMissRate100 = Math.max(Math.max(...missRates100), Math.max(...prevMissRates100)); //誤答率の最大値
+    const maxAverageReactionRate = Math.max(Math.max(...averageReactionRates), Math.max(...prevAverageReactionRates)); //平均反応時間の最大値
+
+    const series: ApexAxisChartSeries = [
         {
             name: missRateText,
-            data: missRates100
+            data: missRates100.map((y, i) => {
+                return {
+                    x: intervals[i],
+                    y: y,
+                    goals: [
+                        {
+                            name: "prev",
+                            value: prevMissRates100[i],
+                            strokeWidth: 16,
+                            strokeHeight: 5,
+                            strokeColor: "#ff0000"
+                        }
+                    ]
+                }
+            }),
         },
         {
             name: averageReactionRateText,
-            data: averageReactionRates
+            data: averageReactionRates.map((y, i) => {
+                return {
+                    x: intervals[i],
+                    y: y,
+                    goals: [
+                        {
+                            name: "prev",
+                            value: prevAverageReactionRates[i],
+                            strokeWidth: 16,
+                            strokeHeight: 5,
+                            strokeColor: "#ff0000"
+                        }
+                    ]
+                }
+            }),
         },
     ];
 
@@ -56,7 +90,7 @@ export default function TrainResult({ missRates, averageReactionRates }: TrainRe
                         fontSize: labelSize,
                     }
                 },
-                max: Math.max(...missRates100),
+                max: maxMissRate100,
             },
             {
                 opposite: true,
@@ -66,11 +100,11 @@ export default function TrainResult({ missRates, averageReactionRates }: TrainRe
                         fontSize: labelSize,
                     }
                 },
-                max: Math.max(...averageReactionRates),
+                max: maxAverageReactionRate,
 
                 decimalsInFloat: 0
             },
-        ]
+        ],
     };
 
     return (
