@@ -1,30 +1,18 @@
-import React, {useEffect} from "react";
-import { useMidiIO } from "../../hooks/useMidiIO";
-import { MessageType } from "../../interfaces/IMidiMessage";
-import { useSoundPlayerWithMidi } from "../../hooks/useSoundPlayerWithMidi";
-import Note from "../../enums/Note";
-import { useSoundPlayerWithTone } from "../../hooks/useSoundPlayerWithTone";
-import useTrainingManager from "../../hooks/useTrainingManager";
+import TrainResult from "../organisms/TrainResult";
+import "./TopPage.css";
 
 export default function TopPage() {
-    // const midiIO = useMidiIO();
-    // const soundPlayer = useSoundPlayerWithMidi(midiIO);
-    const soundPlayer = useSoundPlayerWithTone();
-    const trainingManager = useTrainingManager();
+    const missRates = [0.1, 0.2, 0.3, 0.4, 0.5, 0.3, 0.1, 0.2, 0.3, 0.4, 0.5, 0.3];
+    const averageReactionRates = [100, 200, 300, 400, 500, 300, 100, 200, 300, 400, 500, 300];
 
-    // useEffect(() => {
-    //     midiIO.setOutput("JUNO-DS");
-    // }, [midiIO.outputDevices]);
-    
-    function play() {
-        // soundPlayer.playNote(Note.C4, 500);
-        trainingManager.start();
-    }
+    const props = {
+        missRates: missRates,
+        averageReactionRates: averageReactionRates,
+    };
     
     return (
         <div className="top-page">
-            <h1>Top Page</h1>
-            <button onClick={play}>play</button>
+            <TrainResult {...props} />
         </div>
     )
 }
