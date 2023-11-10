@@ -5,7 +5,7 @@ const missRateText = "誤答率(%)";
 const averageReactionRateText = "平均反応時間(ms)";
 const intervalText = "音程";
 const graphTitle = "各音程の誤答率と平均反応時間のグラフ";
-const intervals = ["CD↑", "CE↑", "CF↑", "CG↑", "CA↑", "CB↓↑", "CB↓", "CA↓", "CG↓", "CF↓", "CE↓", "CD↓"]; //propsはこれに対応している必要がある
+const intervals = ["CD↑", "CE↑", "CF↑", "CG↑", "CA↑", "CB↑", "CB↓", "CA↓", "CG↓", "CF↓", "CE↓", "CD↓"]; //propsはこれに対応している必要がある
 
 const labelSize = "20px";
 
@@ -16,10 +16,12 @@ interface TrainResultProps {
 }
 
 export default function TrainResult({ missRates, averageReactionRates }: TrainResultProps) {
+    const missRates100 = missRates.map(missRate => missRate * 100); //誤答率をパーセントにする
+
     const series = [
         {
             name: missRateText,
-            data: missRates
+            data: missRates100
         },
         {
             name: averageReactionRateText,
@@ -36,9 +38,6 @@ export default function TrainResult({ missRates, averageReactionRates }: TrainRe
             }
         },
         colors: ["#aaaaff", "#88ff88"],
-        theme: {
-            palette: "palette1",
-        },
 
         xaxis: {
             categories: intervals,
@@ -57,7 +56,7 @@ export default function TrainResult({ missRates, averageReactionRates }: TrainRe
                         fontSize: labelSize,
                     }
                 },
-                max: Math.max(...missRates),
+                max: Math.max(...missRates100),
             },
             {
                 opposite: true,
