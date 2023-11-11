@@ -4,6 +4,7 @@ import "./TrainResult.css";
 const missRateText = "誤答率(%)";
 const averageReactionRateText = "平均反応時間(ms)";
 const intervalText = "音程";
+const goalText = "前回の値";
 const graphTitle = "各音程の誤答率と平均反応時間のグラフ";
 const intervals = ["CD↑", "CE↑", "CF↑", "CG↑", "CA↑", "CB↑", "CB↓", "CA↓", "CG↓", "CF↓", "CE↓", "CD↓"]; //propsはこれに対応している必要がある
 
@@ -33,7 +34,7 @@ export default function TrainResult({ prevMissRates, prevAverageReactionRates, m
                     y: y,
                     goals: [
                         {
-                            name: "prev",
+                            name: goalText,
                             value: prevMissRates100[i],
                             strokeWidth: 16,
                             strokeHeight: 5,
@@ -51,7 +52,7 @@ export default function TrainResult({ prevMissRates, prevAverageReactionRates, m
                     y: y,
                     goals: [
                         {
-                            name: "prev",
+                            name: goalText,
                             value: prevAverageReactionRates[i],
                             strokeWidth: 16,
                             strokeHeight: 5,
