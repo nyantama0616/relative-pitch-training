@@ -1,11 +1,13 @@
 import Chart from "react-apexcharts";
-import "./CompareWithYouYesterday2.css";
+import {Box} from "@mui/material";
+import { SxProps } from "@mui/system";
 
 interface CompareWithYouYesterdayProps {
     duration: number,
-    meanYesterday: number
+    meanYesterday: number,
+    sx?: SxProps
 }
-export default function CompareWithYouYesterday2({ duration, meanYesterday }: CompareWithYouYesterdayProps) {
+export default function CompareWithYouYesterday2({ duration, meanYesterday, sx }: CompareWithYouYesterdayProps) {
     const color = duration < meanYesterday ? "rgb(4, 190, 4)" : 'rgb(249, 67, 67)';
     const series = [
         {
@@ -31,8 +33,8 @@ export default function CompareWithYouYesterday2({ duration, meanYesterday }: Co
     };
 
     return (
-        <div className="compare-with-you-yesterday2">
+        <Box component="div" sx={{...sx}}>
             <Chart options={options} series={series} type="bar" height={350} />
-        </div>
+        </Box>
     )
 }
