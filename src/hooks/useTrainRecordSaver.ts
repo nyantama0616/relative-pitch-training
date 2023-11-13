@@ -1,5 +1,6 @@
 import { useState } from "react";
-import ITrainRecordSaver, { BasicStatus } from "../interfaces/ITrainRecordSaver";
+import ITrainRecordSaver from "../interfaces/ITrainRecordSaver";
+import BasicStatus from "../interfaces/BasicStatus";
 import { IQuestionRecord } from "../interfaces/ITrainRecorder";
 import requests from "../requests";
 import axios from "axios";
