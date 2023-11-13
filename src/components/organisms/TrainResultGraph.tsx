@@ -1,5 +1,5 @@
 import Chart from "react-apexcharts";
-import "./TrainResult.css";
+// import "./TrainResult.css";
 
 const missRateText = "誤答率(%)";
 const averageReactionRateText = "平均反応時間(ms)";
@@ -18,7 +18,7 @@ interface TrainResultProps {
     averageReactionRates: number[]
 }
 
-export default function TrainResult({ prevMissRates, prevAverageReactionRates, missRates, averageReactionRates }: TrainResultProps) {
+export default function TrainResultGraph({ prevMissRates, prevAverageReactionRates, missRates, averageReactionRates }: TrainResultProps) {
     const prevMissRates100 = prevMissRates.map(missRate => missRate * 100); //誤答率をパーセントにする
     const missRates100 = missRates.map(missRate => missRate * 100); //誤答率をパーセントにする
 
@@ -109,14 +109,12 @@ export default function TrainResult({ prevMissRates, prevAverageReactionRates, m
     };
 
     return (
-        <div className="train-result">
-            <Chart
-                type="bar"
-                width="100%"
-                height="100%"
-                series={series}
-                options={options}
-            />
-        </div>
+        <Chart
+            type="bar"
+            width="100%"
+            height="100%"
+            series={series}
+            options={options}
+        />
     )
 }
