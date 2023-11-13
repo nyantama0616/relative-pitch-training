@@ -92,6 +92,7 @@ export default function TrainResultGraph({ prevMissRates, prevAverageReactionRat
                     }
                 },
                 max: maxMissRate100,
+                decimalsInFloat: 4
             },
             {
                 opposite: true,
@@ -106,6 +107,9 @@ export default function TrainResultGraph({ prevMissRates, prevAverageReactionRat
                 decimalsInFloat: 0
             },
         ],
+        dataLabels: {
+            enabled: false
+        },
     };
 
     return (
