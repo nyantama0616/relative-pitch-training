@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Button } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import SizingProps from "../../../interfaces/SizingProps";
 import { useTrain } from "../../../contexts/TrainContext";
@@ -39,6 +39,7 @@ export default function MainScene({ sizing }: MainSceneProps) {
                         count={count}
                         sx={{ height: "100px", mt: "100px" }}
                     />
+                    <Button onClick={train.trainRecorder?.save} variant="contained">保存</Button>
                 </Grid>
                 <Grid item xs={4}>
                     <CompareWithYouYesterday2
