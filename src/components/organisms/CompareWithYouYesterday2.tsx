@@ -22,10 +22,16 @@ export default function CompareWithYouYesterday2({ duration, meanYesterday, sx }
         },
         yaxis: {
             min: 0,
-            max: meanYesterday
+            max: meanYesterday,
+            title: {
+                    text: "反応時間(ms)",
+                    style: {
+                        fontSize: "20px",
+                    }
+                },
         },
         xaxis: {
-            categories: ["", "duration", ""]
+            categories: ["", "", ""]
         },
         fill: {
             colors: [color]
@@ -34,7 +40,7 @@ export default function CompareWithYouYesterday2({ duration, meanYesterday, sx }
 
     return (
         <Box component="div" sx={{...sx}}>
-            <Chart options={options} series={series} type="bar" height={350} />
+            <Chart options={options} series={series} type="bar" height={450} />
         </Box>
     )
 }
