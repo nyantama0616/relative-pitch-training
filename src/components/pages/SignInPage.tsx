@@ -12,14 +12,14 @@ export default function SignInPage({sizing}: SignInPageProps) {
                 <Grid container spacing={2} justifyContent="center">
                     <Grid container spacing={2} justifyContent="center">
                             <Grid item xs={8} sx={{mt: "50px"}}>
-                                <TextField label="メールアドレス" variant="outlined" />
+                                <TextField type="text" label="メールアドレス" variant="outlined" />
                             </Grid>
                             <Grid item xs={8}>
-                                <TextField label="パスワード" variant="outlined" />
+                                <TextField type="password" label="パスワード" variant="outlined" />
                             </Grid>
                     </Grid>
                     <Grid item xs={4}>
-                        <Button variant="contained">サインイン</Button>
+                        <Button variant="contained">ログイン</Button>
                     </Grid>
                 </Grid>
             </form>
