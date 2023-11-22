@@ -1,4 +1,4 @@
-import BasicStatus from "./BasicStatus";
+import BasicStatus from "../../others/interfaces/BasicStatus";
 
 export default interface IIntervalRatesFetcher {
     status: BasicStatus;

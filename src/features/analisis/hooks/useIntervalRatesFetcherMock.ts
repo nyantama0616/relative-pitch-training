@@ -1,8 +1,8 @@
 import { useState } from "react";
-import BasicStatus from "../../interfaces/BasicStatus";
-import requests from "../../requests";
+import BasicStatus from "../../others/interfaces/BasicStatus";
+import requests from "../../../requests";
 import axios from "axios";
-import IIntervalRatesFetcher, {IntervalRates} from "../../interfaces/IIntervalRatesFetcher";
+import IIntervalRatesFetcher, {IntervalRates} from "../interfaces/IIntervalRatesFetcher";
 
 interface State {
     status: BasicStatus,

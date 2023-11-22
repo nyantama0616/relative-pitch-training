@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { WebMidi, Input, Output } from "webmidi";
-import Note from "../../Note";
-import IKeyPressManager from "../../interfaces/IKeyPressManager";
-import IMidiIO from "../../interfaces/IMidiIO";
-import { IMidiMessage, MessageType } from "../../interfaces/IMidiMessage";
+import Note from "../../../Note";
+import IKeyPressManager from "../interfaces/IKeyPressManager";
+import IMidiIO from "../interfaces/IMidiIO";
+import { IMidiMessage, MessageType } from "../interfaces/IMidiMessage";
 
 export default function useMidiIOMock(keyPressManager: IKeyPressManager): IMidiIO {
     const mockMidiDevice = "Mock MIDI Device";

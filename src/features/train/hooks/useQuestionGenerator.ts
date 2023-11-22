@@ -1,6 +1,6 @@
 //TODO: 消す, クラスにしたからいらない
 import IQuestionGenerator from "../interfaces/IQuestionGenerator";
-import Note from "../Note";
+import Note from "../../../Note";
 
 export default function useQuestionGenerator(): IQuestionGenerator {
     function generate() {

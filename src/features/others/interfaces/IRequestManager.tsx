@@ -1,4 +1,4 @@
-import BasicStatus from "../BasicStatus";
+import BasicStatus from "./BasicStatus";
 
 export default interface IRequestManager<Request, Response> {
     get(url: string, data?: Request): void //statusを監視すればいいから、Promiseはいらないと思う

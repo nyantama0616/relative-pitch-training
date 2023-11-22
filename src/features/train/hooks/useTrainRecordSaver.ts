@@ -1,50 +1,46 @@
 import { useState } from "react";
-import BasicStatus from "../interfaces/BasicStatus";
-import requests from "../requests";
+import ITrainRecordSaver from "../interfaces/ITrainRecordSaver";
+import BasicStatus from "../../others/interfaces/BasicStatus";
+import { IQuestionRecord } from "../interfaces/ITrainRecorder";
+import requests from "../../../requests";
 import axios from "axios";
-import IIntervalRatesFetcher, {IntervalRates} from "../interfaces/IIntervalRatesFetcher";
 
 interface State {
     status: BasicStatus,
     message: string
-    result: IntervalRates | null
 }
 
 const initialState: State = {
     status: BasicStatus.None,
-    message: "",
-    result: null
+    message: ""
 }
-export default function useIntervalRatesFetcher(): IIntervalRatesFetcher {
+export default function useTrainRecordSaver(): ITrainRecordSaver {
     const [state, setState] = useState<State>(initialState);
     
-    function fetch(id: number) {
+    function save(record: IQuestionRecord[]) {
         setState({
             status: BasicStatus.Doing,
-            message: "読み込み中",
-            result: null
+            message: "セーブ中です"
         });
         axios
-            .post(requests.fetchIntervalRates, { id: id })
+            .post(requests.postRecords, { json: record })
             .then(res => {
                 console.log("success!!");
                 setState({
                     status: BasicStatus.Success,
-                    message: "読み込み完了！",
-                    result: res.data as IntervalRates
+                    message: "セーブ完了！"
                 });
             })
             .catch(res => {
                 setState({
                     status: BasicStatus.Failed,
-                    message: "読み込み失敗。。。",
-                    result: null
+                    message: "セーブに失敗しました。。。"
                 });
             });
     }
 
     return {
         ...state,
-        fetch
+        save,
     }
 }

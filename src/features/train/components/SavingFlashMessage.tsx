@@ -1,4 +1,4 @@
-import BasicStatus from "../../../interfaces/BasicStatus";
+import BasicStatus from "../../others/interfaces/BasicStatus";
 import ReactLoading from "react-loading";
 import { useEffect, useMemo, useRef } from "react";
 import { IconContext } from 'react-icons'

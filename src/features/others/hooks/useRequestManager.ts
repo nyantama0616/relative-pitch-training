@@ -1,6 +1,6 @@
 //こいつだけjestでテストするのは難しいので、違う方法でテストする
 import { useState } from 'react';
-import IRequestManager from '../interfaces/request/IRequestManager';
+import IRequestManager from '../interfaces/IRequestManager';
 import BasicStatus from '../interfaces/BasicStatus';
 import axios from 'axios';
 

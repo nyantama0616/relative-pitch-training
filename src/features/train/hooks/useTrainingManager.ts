@@ -2,10 +2,10 @@ import { useEffect, useState, useRef } from "react";
 import ITrainingManager from "../interfaces/ITrainingManager";
 import useQuestionGenerator from "./useQuestionGenerator";
 import { IQuestion } from "../interfaces/IQuestionGenerator";
-import { useSoundPlayerWithTone } from "./useSoundPlayerWithTone";
-import Note from "../Note";
-import { MessageType } from "../interfaces/IMidiMessage";
-import IMidiIO from "../interfaces/IMidiIO";
+import { useSoundPlayerWithTone } from "../../others/hooks/useSoundPlayerWithTone";
+import Note from "../../../Note";
+import { MessageType } from "../../others/interfaces/IMidiMessage";
+import IMidiIO from "../../others/interfaces/IMidiIO";
 
 interface TrainStates {
     beatCount: number

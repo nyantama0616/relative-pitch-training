@@ -1,9 +1,9 @@
 import { Box, SxProps } from "@mui/system";
 import { useMemo } from "react";
-import useIntervalRatesFetcher from "../../../../hooks/useIntervalRatesFetcher";
+import useIntervalRatesFetcher from "../../../analisis/hooks/useIntervalRatesFetcher";
 import TrainResultGraph from "../../../analisis/components/TrainResultGraph";
-import BasicStatus from "../../../../interfaces/BasicStatus";
-import useIntervalRatesFetcherMock from "../../../../hooks/mocks/useIntervalRatesFetcherMock";
+import BasicStatus from "../../../others/interfaces/BasicStatus";
+import useIntervalRatesFetcherMock from "../../../analisis/hooks/useIntervalRatesFetcherMock";
 import { useEffect } from "react";
 interface ResultSceneProps {
     sx?: SxProps;
