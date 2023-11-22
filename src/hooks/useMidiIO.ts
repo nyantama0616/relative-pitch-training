@@ -3,7 +3,7 @@ import { WebMidi, Input, Output } from "webmidi";
 import IMidiIO from "../interfaces/IMidiIO";
 import { IMidiMessage, MessageType } from "../interfaces/IMidiMessage";
 
-export function useMidiIO(): IMidiIO {
+export default function useMidiIO(): IMidiIO {
     const [inputDevices, setInputDevices] = useState<string[]>([]);
     const [outputDevices, setOutputDevices] = useState<string[]>([]);
     const [inputMessage, setInputMessage] = useState<IMidiMessage | null>(null);

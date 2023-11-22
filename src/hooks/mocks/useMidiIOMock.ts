@@ -5,7 +5,7 @@ import IKeyPressManager from "../../interfaces/IKeyPressManager";
 import IMidiIO from "../../interfaces/IMidiIO";
 import { IMidiMessage, MessageType } from "../../interfaces/IMidiMessage";
 
-export function useMidiIOMock(keyPressManager: IKeyPressManager): IMidiIO {
+export default function useMidiIOMock(keyPressManager: IKeyPressManager): IMidiIO {
     const mockMidiDevice = "Mock MIDI Device";
     const [inputMessage, setInputMessage] = useState<IMidiMessage | null>(null);
 

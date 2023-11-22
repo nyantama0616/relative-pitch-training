@@ -1,3 +1,4 @@
+//TODO: 消す, クラスにしたからいらない
 import IQuestionGenerator from "../interfaces/IQuestionGenerator";
 import Note from "../enums/Note";
 

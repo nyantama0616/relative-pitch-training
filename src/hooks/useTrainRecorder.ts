@@ -53,7 +53,6 @@ export default function useTrainRecorder(trainManager: ITrainingManager, trainRe
     }
 
     function save() {
-        console.log(recordsRef.current);
         trainRecordSaver.save(recordsRef.current);
     }
 
