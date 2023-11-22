@@ -47,7 +47,7 @@ interface ComponentProps {
     sx?: SxProps
 }
 function Component({route, onClick, sx}: ComponentProps) {
-    const {useRequestManager} = useDependency()!;
+    const {useRequestManager} = useDependency();
     const requestManager = useRequestManager<null, any>();
     const message = useMemo(() => requestManager.status === BasicStatus.Success ? requestManager.data!.message : "none", [requestManager.status]);
 

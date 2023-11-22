@@ -12,15 +12,14 @@ import { MenuButton } from '@mui/base/MenuButton';
 import { MenuItem, menuItemClasses } from '@mui/base/MenuItem';
 import { styled } from '@mui/system';
 import Button from "@mui/material/Button";
-import IMidiIO from "../../interfaces/IMidiIO";
+import { useDependency } from '../../contexts/Dependency';
 import "./TrainConfig.css";
 
-interface TrainConfigProps {
-    midiIO: IMidiIO
-}
+export default function TrainConfig() {
+    const { midiIO } = useDependency();
 
-export default function TrainConfig({ midiIO }: TrainConfigProps) {
     const midiDevice = "Rokand JUNO-DS";
+
     useEffect(() => {
         midiIO.setInput(midiDevice);
         

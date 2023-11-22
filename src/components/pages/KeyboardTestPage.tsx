@@ -1,9 +1,8 @@
-import React, {useEffect} from "react";
-import { useMidiIO } from "../../hooks/useMidiIO";
 import Keyboard from "../organisms/Keyboard";
+import { useDependency } from "../../contexts/Dependency";
 
 export default function KeyboardTestPage() {
-    const midiIO = useMidiIO();
+    const { midiIO } = useDependency();
 
     return (
         <div className="keyboard-test-page">

@@ -5,14 +5,15 @@ import { useTrain } from "../../../contexts/TrainContext";
 import CompareWithYouYesterday2 from "../CompareWithYouYesterday2";
 import Counter from "../Counter";
 import { log } from "tone/build/esm/core/util/Debug";
-
+import { useDependency } from "../../../contexts/Dependency";
 interface MainSceneProps {
     sizing?: SizingProps;
 }
 
 export default function MainScene({ sizing }: MainSceneProps) {
     const [count, setCount] = useState(3);
-    const train = useTrain();
+    const { trainManager, trainRecorder } = useDependency();
+
     const intervalRef = useRef<NodeJS.Timer | null>(null);
     
     useEffect(() => {
@@ -25,7 +26,7 @@ export default function MainScene({ sizing }: MainSceneProps) {
 
     useEffect(() => {
         if (count <= 0) {
-            train.trainManager?.start();
+            trainManager.start();
             intervalRef.current && clearInterval(intervalRef.current);
             log("start");
         }
@@ -39,11 +40,11 @@ export default function MainScene({ sizing }: MainSceneProps) {
                         count={count}
                         sx={{ height: "100px", mt: "100px" }}
                     />
-                    <Button onClick={train.trainRecorder?.save} variant="contained">保存</Button>
+                    <Button onClick={trainRecorder.save} variant="contained">保存</Button>
                 </Grid>
                 <Grid item xs={4}>
                     <CompareWithYouYesterday2
-                        duration={train.trainRecorder!.record.duration}
+                        duration={trainRecorder.record.duration}
                         meanYesterday={500}
                         sx={{ height: "500px", mt: "100px" }}
                     />
