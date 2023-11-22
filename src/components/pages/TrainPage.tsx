@@ -1,29 +1,47 @@
+import { useMemo } from "react";
 import { Box, Grid } from "@mui/material";
-import SizingProps from "../../interfaces/SizingProps";
+import { SxProps } from "@mui/system";
 import StartScene from "../organisms/train-scenes/StartScene";
 import MainScene from "../organisms/train-scenes/MainScene";
 import ResultScene from "../organisms/train-scenes/ResultScene";
 import { TrainProvider } from "../../contexts/TrainContext";
-import useKeyPressManager from "../../hooks/useKeyPressManager";
-import { KeyPressProvider } from "../../contexts/KeyPressContext";
+import { KeyPressProvider } from "../../contexts/KeyPressContext"; //TODO: 消す
 import { useRef, useEffect } from "react";
+import { useDependency } from "../../contexts/Dependency";
 
+export enum Scene {
+    Start,
+    Main,
+    Result
+}
 interface StartSceneProps {
-    sizing?: SizingProps;
+    scene: Scene;
+    sx?: SxProps;
 }
 
-export default function TrainPage({ sizing }: StartSceneProps) {
+export default function TrainPage({ scene, sx }: StartSceneProps) {
     const trainPageRef = useRef<HTMLDivElement>(null);
-    const keyPressManager = useKeyPressManager();
+    const { keyPressManager } = useDependency();
 
     useEffect(() => {
         trainPageRef.current?.focus();
     }, []);
 
+    const sceneComponent = useMemo(() => {
+        switch (scene) {
+            case Scene.Start:
+                return <StartScene sizing={{ height: "800px" }} />
+            case Scene.Main:
+                return <MainScene sizing={{ height: "800px" }} />
+            case Scene.Result:
+                return <ResultScene sizing={{ height: "800px" }} />
+        }
+    }, [scene]);
+
     return (
         <Box
             component="div"
-            sx={{ backgroundColor: "#eeeeff", borderRadius: "10px", ...sizing }}
+            sx={{ backgroundColor: "#eeeeff", borderRadius: "10px", ...sx }}
             tabIndex={0}
             ref={trainPageRef}
             onKeyDown={e => keyPressManager.handleKeyDown(e)}
@@ -36,9 +54,7 @@ export default function TrainPage({ sizing }: StartSceneProps) {
                 <Grid item xs={11}>
                     <KeyPressProvider keyPressManager={keyPressManager}>
                         <TrainProvider>
-                            {/* <StartScene sizing={{ height: "800px" }} /> */}
-                            <MainScene sizing={{ height: "800px" }} />
-                            {/* <ResultScene sizing={{ height: "800px" }} /> */}
+                            {sceneComponent}
                         </TrainProvider>
                     </KeyPressProvider>
                 </Grid>
