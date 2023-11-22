@@ -1,4 +1,4 @@
-import Note from "../enums/Note";
+import Note from "../Note";
 
 interface IntervalDictionary {
     [id: number]: string

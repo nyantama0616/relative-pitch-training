@@ -12,7 +12,7 @@ import { MenuButton } from '@mui/base/MenuButton';
 import { MenuItem, menuItemClasses } from '@mui/base/MenuItem';
 import { styled } from '@mui/system';
 import Button from "@mui/material/Button";
-import { useDependency } from '../../contexts/Dependency';
+import { useDependency } from '../../../Dependency';
 import "./TrainConfig.css";
 
 export default function TrainConfig() {

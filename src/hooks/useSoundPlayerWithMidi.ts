@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import ISoundPlayer from "../interfaces/ISoundPlayer";
 import { IMidiMessage, MessageType } from "../interfaces/IMidiMessage";
 import IMidiIO from "../interfaces/IMidiIO";
-import Note from "../enums/Note";
+import Note from "../Note";
 
 export function useSoundPlayerWithMidi(midiIO: IMidiIO): ISoundPlayer {
     function playNote(note: Note, duration: number) {

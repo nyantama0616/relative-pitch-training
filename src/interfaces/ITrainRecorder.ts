@@ -1,5 +1,5 @@
 import React from "react";
-import Note from "../enums/Note";
+import Note from "../Note";
 
 export default interface ITrainRecorder {
     record: IQuestionRecord

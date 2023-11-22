@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IMidiMessage, MessageType } from "../../interfaces/IMidiMessage";
+import { IMidiMessage, MessageType } from "../../../interfaces/IMidiMessage";
 import "./Keyboard.css";
 
 // キーボードを描画するコンポーネント

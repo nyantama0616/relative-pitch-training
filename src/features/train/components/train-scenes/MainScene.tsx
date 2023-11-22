@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import CompareWithYouYesterday2 from "../CompareWithYouYesterday2";
 import Counter from "../Counter";
 import { log } from "tone/build/esm/core/util/Debug";
-import { useDependency } from "../../../contexts/Dependency";
+import { useDependency } from "../../../../Dependency";
 interface MainSceneProps {
     sx?: SxProps;
 }

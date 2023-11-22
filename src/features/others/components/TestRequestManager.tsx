@@ -1,11 +1,11 @@
 import { SxProps } from "@mui/system";
 import { Box, Grid, Button } from "@mui/material";
-import {useDependency} from "../../contexts/Dependency";
+import {useDependency} from "../../../Dependency";
 // import BasicStatus from "../../interface/BasicStatus";
 import { useMemo } from "react";
-import BasicStatus from "../../interfaces/BasicStatus";
-import requests from "../../requests";
-import IRequestManager from "../../interfaces/request/IRequestManager";
+import BasicStatus from "../../../interfaces/BasicStatus";
+import requests from "../../../requests";
+import IRequestManager from "../../../interfaces/request/IRequestManager";
 
 interface TestRequestManagerProps {
     sx?: SxProps

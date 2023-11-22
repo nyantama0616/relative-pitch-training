@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import { Box, Grid } from "@mui/material";
 import { SxProps } from "@mui/system";
-import StartScene from "../organisms/train-scenes/StartScene";
-import MainScene from "../organisms/train-scenes/MainScene";
-import ResultScene from "../organisms/train-scenes/ResultScene";
+import StartScene from "./train-scenes/StartScene";
+import MainScene from "./train-scenes/MainScene";
+import ResultScene from "./train-scenes/ResultScene";
 import { useRef, useEffect } from "react";
-import { useDependency } from "../../contexts/Dependency";
+import { useDependency } from "../../../Dependency";
 
 export enum Scene {
     Start,

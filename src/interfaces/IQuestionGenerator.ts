@@ -1,5 +1,5 @@
 import React from "react";
-import Note from "../enums/Note";
+import Note from "../Note";
 
 //問題を生成する役割
 export default interface IQuestionGenerator {

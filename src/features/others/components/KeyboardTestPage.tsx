@@ -1,5 +1,5 @@
-import Keyboard from "../organisms/Keyboard";
-import { useDependency } from "../../contexts/Dependency";
+import Keyboard from "./Keyboard";
+import { useDependency } from "../../../Dependency";
 
 export default function KeyboardTestPage() {
     const { midiIO } = useDependency();

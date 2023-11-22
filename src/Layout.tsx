@@ -1,5 +1,5 @@
 import { Box, Grid } from "@mui/material"
-import Header from "../organisms/Header"
+import Header from "./features/others/components/Header"
 
 interface LayoutProps {
     mainComponent: JSX.Element

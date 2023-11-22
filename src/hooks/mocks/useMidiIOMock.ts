@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { WebMidi, Input, Output } from "webmidi";
-import Note from "../../enums/Note";
+import Note from "../../Note";
 import IKeyPressManager from "../../interfaces/IKeyPressManager";
 import IMidiIO from "../../interfaces/IMidiIO";
 import { IMidiMessage, MessageType } from "../../interfaces/IMidiMessage";

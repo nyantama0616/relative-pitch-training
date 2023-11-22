@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { DependencyProvider } from './contexts/Dependency';
-import Layout from './components/layouts/Layout';
-import TopPage from './components/pages/TopPage';
-import KeyboardTestPage from './components/pages/KeyboardTestPage';
-import SignUpPage from './components/pages/SignUpPage';
-import SignInPage from './components/pages/SignInPage';
-import TrainPage, { Scene } from './components/pages/TrainPage';
-import TestRequestManager from './components/pages/TestRequestManager';
+import { DependencyProvider } from './Dependency';
+import Layout from './Layout';
+import TopPage from './features/others/components/TopPage';
+import KeyboardTestPage from './features/others/components/KeyboardTestPage';
+import SignUpPage from './features/auth/components/SignUpPage';
+import SignInPage from './features/auth/components/SignInPage';
+import TrainPage, { Scene } from './features/train/components/TrainPage';
+import TestRequestManager from './features/others/components/TestRequestManager';
 
 import "./App.css";
 

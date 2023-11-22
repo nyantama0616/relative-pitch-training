@@ -1,6 +1,6 @@
 import ISoundPlayer from "../interfaces/ISoundPlayer";
 import * as Tone from 'tone';
-import Note from "../enums/Note";
+import Note from "../Note";
 import { useRef, useEffect } from "react";
 import { IMidiMessage, MessageType } from "../interfaces/IMidiMessage";
 

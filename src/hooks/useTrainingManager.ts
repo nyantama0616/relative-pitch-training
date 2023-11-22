@@ -3,7 +3,7 @@ import ITrainingManager from "../interfaces/ITrainingManager";
 import useQuestionGenerator from "./useQuestionGenerator";
 import { IQuestion } from "../interfaces/IQuestionGenerator";
 import { useSoundPlayerWithTone } from "./useSoundPlayerWithTone";
-import Note from "../enums/Note";
+import Note from "../Note";
 import { MessageType } from "../interfaces/IMidiMessage";
 import IMidiIO from "../interfaces/IMidiIO";
 

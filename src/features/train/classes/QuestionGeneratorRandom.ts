@@ -1,5 +1,5 @@
-import IQuestionGenerator, { IQuestion } from "../interfaces/IQuestionGenerator";
-import Note from "../enums/Note";
+import IQuestionGenerator, { IQuestion } from "../../../interfaces/IQuestionGenerator";
+import Note from "../../../Note";
 
 const note1Candidates = [Note.D3, Note.E3, Note.F3, Note.G3, Note.A3, Note.B3, Note.D4, Note.E4, Note.F4, Note.G4, Note.A4, Note.B4];
 
