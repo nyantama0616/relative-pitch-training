@@ -17,8 +17,8 @@ function App() {
         <Routes>
           <Route path="/" element={<AppWithDependency mainComponent={<TopPage />}/>}></Route>
           <Route path="/keyboard-test" element={<AppWithDependency mainComponent={<KeyboardTestPage />}/>}></Route>
-          <Route path="/sign-up" element={<AppWithDependency mainComponent={<SignUpPage sizing={{ height: "1000px" }} />}/>}></Route>
-          <Route path="/sign-in" element={<AppWithDependency mainComponent={<SignInPage sizing={{ height: "1000px" }} />}/>}></Route>
+          <Route path="/sign-up" element={<AppWithDependency mainComponent={<SignUpPage sx={{ height: "1000px" }} />}/>}></Route>
+          <Route path="/sign-in" element={<AppWithDependency mainComponent={<SignInPage sx={{ height: "1000px" }} />}/>}></Route>
           <Route path="/train/start" element={<AppWithDependency mainComponent={<TrainPage scene={Scene.Start} sx={{ height: "1000px" }} />}/>}></Route>
           <Route path="/train/main" element={<AppWithDependency mainComponent={<TrainPage scene={Scene.Main} sx={{ height: "1000px" }} />}/>}></Route>
           <Route path="/train/result" element={<AppWithDependency mainComponent={<TrainPage scene={Scene.Result} sx={{ height: "1000px" }} />}/>}></Route>

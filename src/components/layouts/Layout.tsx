@@ -11,7 +11,7 @@ export default function Layout({ mainComponent }: LayoutProps) {
             {/* 子要素を中央に配置には、containerグリッドにjustifyContent="center"を指定する */}
             <Grid container spacing={8} justifyContent="center">
                 <Grid item xs={12}>
-                    <Header sizing={{height: "70px"}} />
+                    <Header sx={{height: "70px"}} />
                 </Grid>
                 <Grid item xs={10}>
                     {mainComponent}

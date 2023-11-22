@@ -1,17 +1,16 @@
-import { Box } from "@mui/system";
+import { Box, SxProps } from "@mui/system";
 import { useMemo } from "react";
 import useIntervalRatesFetcher from "../../../hooks/useIntervalRatesFetcher";
-import SizingProps from "../../../interfaces/SizingProps";
 import TrainResultGraph from "../TrainResultGraph";
 import BasicStatus from "../../../interfaces/BasicStatus";
 import useIntervalRatesFetcherMock from "../../../hooks/mocks/useIntervalRatesFetcherMock";
 import { useEffect } from "react";
 interface ResultSceneProps {
-    sizing?: SizingProps;
+    sx?: SxProps;
 }
 
-export default function ResultScene({ sizing }: ResultSceneProps) {
-    const prevFetcher = useIntervalRatesFetcherMock();
+export default function ResultScene({ sx }: ResultSceneProps) {
+    const prevFetcher = useIntervalRatesFetcherMock(); //TODO: useRequestScene作る
     const currFetcher = useIntervalRatesFetcherMock();
 
     const props = useMemo(() => {
@@ -33,7 +32,7 @@ export default function ResultScene({ sizing }: ResultSceneProps) {
     }, []);
 
     return (
-        <Box component="div" sx={{ backgroundColor: "#ccccff", ...sizing }}>
+        <Box component="div" sx={{ backgroundColor: "#ccccff", ...sx }}>
             {props ? <TrainResultGraph {...props} /> : null}
         </Box>
     )

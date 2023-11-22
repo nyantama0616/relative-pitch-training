@@ -1,13 +1,12 @@
-import { Box, Grid, Button, TextField } from "@mui/material";
-import SizingProps from "../../interfaces/SizingProps";
+import { Box, Grid, Button, TextField, SxProps } from "@mui/material";
 
 interface SignUpPageProps {
-    sizing?: SizingProps;
+    sx?: SxProps;
 }
 
-export default function SignUpPage({ sizing }: SignUpPageProps) {
+export default function SignUpPage({ sx }: SignUpPageProps) {
     return (
-        <Box component="div" sx={{ backgroundColor: "#eeeeff", borderRadius: "10px", ...sizing }}>
+        <Box component="div" sx={{ backgroundColor: "#eeeeff", borderRadius: "10px", ...sx }}>
             <form action="">
                 <Grid container spacing={2} justifyContent="center">
                     <Grid container spacing={2} justifyContent="center">

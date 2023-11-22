@@ -30,11 +30,11 @@ export default function TrainPage({ scene, sx }: StartSceneProps) {
     const sceneComponent = useMemo(() => {
         switch (scene) {
             case Scene.Start:
-                return <StartScene sizing={{ height: "800px" }} />
+                return <StartScene sx={{ height: "800px" }} />
             case Scene.Main:
-                return <MainScene sizing={{ height: "800px" }} />
+                return <MainScene sx={{ height: "800px" }} />
             case Scene.Result:
-                return <ResultScene sizing={{ height: "800px" }} />
+                return <ResultScene sx={{ height: "800px" }} />
         }
     }, [scene]);
 

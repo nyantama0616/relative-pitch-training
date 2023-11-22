@@ -1,16 +1,15 @@
 import { Box, Grid, Button } from "@mui/material";
+import { SxProps } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
-import SizingProps from "../../../interfaces/SizingProps";
-import { useTrain } from "../../../contexts/TrainContext";
 import CompareWithYouYesterday2 from "../CompareWithYouYesterday2";
 import Counter from "../Counter";
 import { log } from "tone/build/esm/core/util/Debug";
 import { useDependency } from "../../../contexts/Dependency";
 interface MainSceneProps {
-    sizing?: SizingProps;
+    sx?: SxProps;
 }
 
-export default function MainScene({ sizing }: MainSceneProps) {
+export default function MainScene({ sx }: MainSceneProps) {
     const [count, setCount] = useState(3);
     const { trainManager, trainRecorder } = useDependency();
 
@@ -33,7 +32,7 @@ export default function MainScene({ sizing }: MainSceneProps) {
     }, [count])
 
     return (
-        <Box component="div" sx={{ backgroundColor: "#ccccff", ...sizing }}>
+        <Box component="div" sx={{ backgroundColor: "#ccccff", ...sx }}>
             <Grid container justifyContent="center">
                 <Grid item xs={12}>
                     <Counter
