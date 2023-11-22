@@ -4,8 +4,6 @@ import { SxProps } from "@mui/system";
 import StartScene from "../organisms/train-scenes/StartScene";
 import MainScene from "../organisms/train-scenes/MainScene";
 import ResultScene from "../organisms/train-scenes/ResultScene";
-import { TrainProvider } from "../../contexts/TrainContext";
-import { KeyPressProvider } from "../../contexts/KeyPressContext"; //TODO: 消す
 import { useRef, useEffect } from "react";
 import { useDependency } from "../../contexts/Dependency";
 
@@ -21,7 +19,7 @@ interface StartSceneProps {
 
 export default function TrainPage({ scene, sx }: StartSceneProps) {
     const trainPageRef = useRef<HTMLDivElement>(null);
-    const { keyPressManager } = useDependency();
+    const { keyPressManager } = useDependency(); //TODO: ここでkeyPressManagerに色々変更を加える設計はよくないと思う
 
     useEffect(() => {
         trainPageRef.current?.focus();
@@ -52,11 +50,7 @@ export default function TrainPage({ scene, sx }: StartSceneProps) {
                     <h1>Train Page  </h1>
                 </Grid>
                 <Grid item xs={11}>
-                    <KeyPressProvider keyPressManager={keyPressManager}>
-                        <TrainProvider>
-                            {sceneComponent}
-                        </TrainProvider>
-                    </KeyPressProvider>
+                    {sceneComponent}
                 </Grid>
             </Grid>
         </Box>
