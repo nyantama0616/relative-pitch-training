@@ -5,7 +5,11 @@ import ITrainRecordSaver from "../interfaces/ITrainRecordSaver";
 
 const INTERVAL = 34; //durationを更新する間隔
 
-export default function useTrainRecorder(trainManager: ITrainingManager, trainRecordSaver: ITrainRecordSaver): ITrainRecorder {
+interface Props {
+    trainManager: ITrainingManager
+    trainRecordSaver: ITrainRecordSaver
+}
+export default function useTrainRecorder({trainManager, trainRecordSaver}: Props): ITrainRecorder {
     const [duration, setDuration] = useState(0);
     const timerRef = useRef<NodeJS.Timer | null>(null);
     const recordsRef = useRef<IQuestionRecord[]>([]);

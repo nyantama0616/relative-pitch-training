@@ -1,11 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import ITrainingManager from "../interfaces/ITrainingManager";
-import useQuestionGenerator from "./useQuestionGenerator";
-import { IQuestion } from "../interfaces/IQuestionGenerator";
-import { useSoundPlayerWithTone } from "../../others/hooks/useSoundPlayerWithTone";
+import IQuestionGenerator, { IQuestion } from "../interfaces/IQuestionGenerator";
 import Note from "../../../Note";
 import { MessageType } from "../../others/interfaces/IMidiMessage";
 import IMidiIO from "../../others/interfaces/IMidiIO";
+import ISoundPlayer from "../../others/interfaces/ISoundPlayer";
 
 interface TrainStates {
     beatCount: number
@@ -23,12 +22,13 @@ const initialTrainState: TrainStates = {
     missCount: 0,
 }
 
-export default function useTrainingManager(midiIO: IMidiIO): ITrainingManager {
+interface Props {
+    midiIO: IMidiIO
+    questionGenerator: IQuestionGenerator,
+    soundPlayer: ISoundPlayer
+}
+export default function useTrainingManager({midiIO, questionGenerator, soundPlayer}: Props): ITrainingManager {
     const INTERVAL = 500; //tempo(ms)
-    
-    //hooks
-    const questionGenerator = useQuestionGenerator();
-    const soundPlayer = useSoundPlayerWithTone();
 
     //states
     const [state, setState] = useState<TrainStates>(initialTrainState);
