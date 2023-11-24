@@ -51,8 +51,8 @@ interface ComponentProps {
     sx?: SxProps
 }
 function Component({route, onClick, sx}: ComponentProps) {
-    const {useRequestManager} = useDependency();
-    const requestManager = useRequestManager<null, any>();
+    const {RequestManager} = useDependency();
+    const requestManager = new RequestManager<null, any>();
     const [message, setMessage] = useState("none");
 
     // OPTIMISE: ↓こいつのせいでクソややこしい設計になってる

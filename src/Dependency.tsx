@@ -4,8 +4,6 @@ import ITrainingManager from "./features/train/interfaces/ITrainingManager";
 import ITrainRecorder from "./features/train/interfaces/ITrainRecorder";
 import IMidiIO from "./features/others/interfaces/IMidiIO";
 import IQuestionGenerator from "./features/train/interfaces/IQuestionGenerator";
-import useRequestManager from "./features/others/hooks/useRequestManager";
-import IRequestManager from "./features/others/interfaces/IRequestManager";
 import useKeyPressManager from "./features/others/hooks/useKeyPressManager";
 import useTrainingManager from "./features/train/hooks/useTrainingManager";
 import useTrainRecorder from "./features/train/hooks/useTrainRecorder";
@@ -15,7 +13,9 @@ import useTrainRecordSaver from "./features/train/hooks/useTrainRecordSaver";
 import ISoundPlayer from "./features/others/interfaces/ISoundPlayer";
 import { useSoundPlayerWithTone } from "./features/others/hooks/useSoundPlayerWithTone";
 import ITrainRecordSaver from "./features/train/interfaces/ITrainRecordSaver";
-
+import IAuthManager from "./features/auth/interfaces/IAuthManager";
+import useAuthManager from "./features/auth/hooks/useAuthManager";
+import RequestManager, {TypeRequestManager} from "./features/others/classes/RequestManager";
 interface DependencyContextType {
     keyPressManager: IKeyPressManager;
     trainManager: ITrainingManager;
@@ -24,7 +24,8 @@ interface DependencyContextType {
     midiIO: IMidiIO;
     soundPlayer: ISoundPlayer
     questionGenerator: IQuestionGenerator;
-    useRequestManager: <Request, Response>() => IRequestManager<Request, Response>
+    RequestManager: TypeRequestManager;
+    authManager: IAuthManager;
 }
 
 const initialValue: DependencyContextType = {
@@ -35,7 +36,8 @@ const initialValue: DependencyContextType = {
     midiIO: null!,
     soundPlayer: null!,
     questionGenerator: null!,
-    useRequestManager: null!,
+    RequestManager: null!,
+    authManager: null!,
 };
 
 const DependencyContext = React.createContext<DependencyContextType>(initialValue);
@@ -55,6 +57,7 @@ export function DependencyProvider({ children }: DependencyProviderProps) {
     const trainManager = useTrainingManager({ midiIO, soundPlayer, questionGenerator });
     const trainRecordSaver = useTrainRecordSaver(); //TODO: 消す
     const trainRecorder = useTrainRecorder({ trainManager, trainRecordSaver });
+    const authManager = useAuthManager(RequestManager);
 
     const value: DependencyContextType = {
         keyPressManager,
@@ -64,7 +67,8 @@ export function DependencyProvider({ children }: DependencyProviderProps) {
         soundPlayer,
         questionGenerator,
         trainRecordSaver,
-        useRequestManager: useRequestManager,
+        RequestManager: RequestManager,
+        authManager: null!,
     };
 
     return (
