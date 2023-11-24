@@ -7,6 +7,7 @@ import SignUpPage from './features/auth/components/SignUpPage';
 import SignInPage from './features/auth/components/SignInPage';
 import TrainPage, { Scene } from './features/train/components/TrainPage';
 import TestRequestManager from './features/others/components/TestRequestManager';
+import TestAuthManager from './features/auth/components/TestAuthManager';
 
 import "./App.css";
 
@@ -16,13 +17,14 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<AppWithDependency mainComponent={<TopPage />}/>}></Route>
-          <Route path="/keyboard-test" element={<AppWithDependency mainComponent={<KeyboardTestPage />}/>}></Route>
           <Route path="/sign-up" element={<AppWithDependency mainComponent={<SignUpPage sx={{ height: "1000px" }} />}/>}></Route>
           <Route path="/sign-in" element={<AppWithDependency mainComponent={<SignInPage sx={{ height: "1000px" }} />}/>}></Route>
           <Route path="/train/start" element={<AppWithDependency mainComponent={<TrainPage scene={Scene.Start} sx={{ height: "1000px" }} />}/>}></Route>
           <Route path="/train/main" element={<AppWithDependency mainComponent={<TrainPage scene={Scene.Main} sx={{ height: "1000px" }} />}/>}></Route>
           <Route path="/train/result" element={<AppWithDependency mainComponent={<TrainPage scene={Scene.Result} sx={{ height: "1000px" }} />}/>}></Route>
-          <Route path="/test/request"element={<AppWithDependency mainComponent={<TestRequestManager/>}/>}></Route>
+          <Route path="/test/midi-keyboard" element={<AppWithDependency mainComponent={<KeyboardTestPage />}/>}></Route>
+          <Route path="/test/request-manager"element={<AppWithDependency mainComponent={<TestRequestManager/>}/>}></Route>
+          <Route path="/test/auth-manager"element={<AppWithDependency mainComponent={<TestAuthManager/>}/>}></Route>
         </Routes>
       </Router>
       

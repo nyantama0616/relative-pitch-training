@@ -68,7 +68,7 @@ export function DependencyProvider({ children }: DependencyProviderProps) {
         questionGenerator,
         trainRecordSaver,
         RequestManager: RequestManager,
-        authManager: null!,
+        authManager: authManager,
     };
 
     return (
