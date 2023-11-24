@@ -12,6 +12,9 @@ const requests = {
     },
     user: {
         all: "http://localhost:3000/users",
+    },
+    image: {
+        fetch: "http://localhost:3000/images",
     }
 }
 

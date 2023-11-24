@@ -2,7 +2,7 @@ import { Box, Button, Grid, List, ListItem } from "@mui/material";
 import { SxProps } from "@mui/system";
 import { useDependency } from "../../../Dependency";
 import { useState } from "react";
-import User from "../interfaces/User";
+import IUser from "../interfaces/IUser";
 
 interface TestAuthManagerProps {
     sx?: SxProps
@@ -34,7 +34,7 @@ interface TestSignUpProps {
 }
 function TestSignUp({ sx }: TestSignUpProps) {
     const { authManager } = useDependency();
-    const email = "panda3@example.com";
+    const email = "panda4@example.com";
     const password = "password";
     const [message, setMessage] = useState("none");
 
@@ -65,7 +65,7 @@ interface TestSignInProps {
 }
 function TestSignIn({ sx }: TestSignInProps) {
     const { authManager } = useDependency();
-    const email = "panda3@example.com";
+    const email = "panda4@example.com";
     const password = "password";
     const [message, setMessage] = useState("none");
 
@@ -74,8 +74,6 @@ function TestSignIn({ sx }: TestSignInProps) {
             .signIn(email, password)
             .then((response) => {
                 setMessage("success!");
-                console.log(document.cookie);
-                
             })
             .catch((error) => {
                 setMessage("failed...");
@@ -90,7 +88,7 @@ function TestSignIn({ sx }: TestSignInProps) {
             <p>message: {message}</p>
             <Button variant="contained" onClick={_signIn}>Send</Button>
             <h3>Current User</h3>
-
+            <img src={authManager.currentUser?.image_url} alt="IUser Image" />
             <p>user_name: {authManager.currentUser?.user_name}</p>
             <p>email: {authManager.currentUser?.email}</p>
         </Box>
@@ -102,7 +100,7 @@ interface TestFetchUsersProps {
 }
 function TestFetchUsers({ sx }: TestFetchUsersProps) {
     const { userRequestManager } = useDependency();
-    const [users, setUsers] = useState<Array<User>>([]);
+    const [users, setUsers] = useState<Array<IUser>>([]);
     const [message, setMessage] = useState("none");
 
     function _fetch() {
@@ -121,9 +119,11 @@ function TestFetchUsers({ sx }: TestFetchUsersProps) {
     }
 
     const userList = users.map((user, i) => {
+        
         return (
             <ListItem key={i.toString()}>
-                <Box component="div" sx={{backgroundColor: "#ccccff"}}>
+                <Box component="div" sx={{ backgroundColor: "#ccccff" }}>
+                    <img src={user.image_url} alt="IUser Image" />
                     <p>name: none</p>
                     <p>email: {user.email}</p>
                 </Box>

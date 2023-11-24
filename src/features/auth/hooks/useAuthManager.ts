@@ -1,11 +1,12 @@
 import { useState } from "react";
-import User from "../interfaces/User";
+import IUser from "../interfaces/IUser";
+import User from "../classes/User";
 import requests from "../../../requests";
 import IAuthManager from "../interfaces/IAuthManager";
 import { TypeRequestManager } from "../../others/classes/RequestManager";
 
 export default function useAuthManager(RequestManager: TypeRequestManager): IAuthManager {
-    const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const [currentUser, setCurrentUser] = useState<IUser | null>(null);
     const signUpRequestManager = new RequestManager<SignUpRequest, SignUpResponse>();
     const signInRequestManager = new RequestManager<SignInRequest, SignInResponse>();
     
@@ -17,8 +18,9 @@ export default function useAuthManager(RequestManager: TypeRequestManager): IAut
         return new Promise((resolve, reject) => {
             signInRequestManager
                 .post(requests.auth.signin, { email, password })
-                .then((response) => {
-                    setCurrentUser(response);
+                .then((res) => {                
+                    const user = new User(res!.user_name, res!.email, res!.image_path); // TODO: Requestにimage_pathを追加する
+                    setCurrentUser(user);
                     resolve(true);
                 })
                 .catch((error) => {
@@ -69,4 +71,8 @@ interface SignInRequest {
     password: string;
 }
 
-type SignInResponse = User;
+interface SignInResponse {
+    user_name: string;
+    email: string;
+    image_path: string;
+}
