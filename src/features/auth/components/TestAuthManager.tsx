@@ -9,7 +9,6 @@ interface TestAuthManagerProps {
 }
 export default function TestAuthManager({ sx }: TestAuthManagerProps) {
     
-    
     return (
         <Box component="div">
             <h1>Test Auth Manager</h1>
@@ -20,6 +19,10 @@ export default function TestAuthManager({ sx }: TestAuthManagerProps) {
 
                 <Grid item xs={12}>
                     <TestFetchUsers sx={{ background: "#eeeeee" }} />
+                </Grid>
+                
+                <Grid item xs={12}>
+                    <TestSignIn sx={{ background: "#eeeeee" }} />
                 </Grid>
             </Grid>
         </Box>
@@ -36,8 +39,6 @@ function TestSignUp({ sx }: TestSignUpProps) {
     const [message, setMessage] = useState("none");
 
     function _signUp() {
-        console.log(authManager);
-        
         authManager
             .signUp(email, password)
             .then((response) => {
@@ -55,6 +56,43 @@ function TestSignUp({ sx }: TestSignUpProps) {
             <p>password: {password}</p>
             <p>message: {message}</p>
             <Button variant="contained" onClick={_signUp}>Send</Button>
+        </Box>
+    )
+}
+
+interface TestSignInProps {
+    sx?: SxProps
+}
+function TestSignIn({ sx }: TestSignInProps) {
+    const { authManager } = useDependency();
+    const email = "panda3@example.com";
+    const password = "password";
+    const [message, setMessage] = useState("none");
+
+    function _signIn() {
+        authManager
+            .signIn(email, password)
+            .then((response) => {
+                setMessage("success!");
+                console.log(document.cookie);
+                
+            })
+            .catch((error) => {
+                setMessage("failed...");
+            });
+    }
+
+    return (
+        <Box component="div" sx={{ ...sx }}>
+            <h1>Sign In</h1>
+            <p>email: {email}</p>
+            <p>password: {password}</p>
+            <p>message: {message}</p>
+            <Button variant="contained" onClick={_signIn}>Send</Button>
+            <h3>Current User</h3>
+
+            <p>user_name: {authManager.currentUser?.user_name}</p>
+            <p>email: {authManager.currentUser?.email}</p>
         </Box>
     )
 }

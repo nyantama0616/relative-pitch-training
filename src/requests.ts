@@ -8,6 +8,7 @@ const requests = {
     },
     auth: {
         signup: "http://localhost:3000/signup",
+        signin: "http://localhost:3000/signin",
     },
     user: {
         all: "http://localhost:3000/users",

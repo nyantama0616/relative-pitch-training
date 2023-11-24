@@ -7,12 +7,24 @@ import { TypeRequestManager } from "../../others/classes/RequestManager";
 export default function useAuthManager(RequestManager: TypeRequestManager): IAuthManager {
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const signUpRequestManager = new RequestManager<SignUpRequest, SignUpResponse>();
+    const signInRequestManager = new RequestManager<SignInRequest, SignInResponse>();
     
     function isAuthorized() {
         return currentUser !== null;
     }
 
     function signIn(email: string, password: string): Promise<boolean> {
+        return new Promise((resolve, reject) => {
+            signInRequestManager
+                .post(requests.auth.signin, { email, password })
+                .then((response) => {
+                    setCurrentUser(response);
+                    resolve(true);
+                })
+                .catch((error) => {
+                    reject(false);
+                });
+        });
         return Promise.resolve(false);
     }
 
@@ -51,3 +63,10 @@ interface SignUpRequest {
 interface SignUpResponse {
     message: string;
 }
+
+interface SignInRequest {
+    email: string;
+    password: string;
+}
+
+type SignInResponse = User;
