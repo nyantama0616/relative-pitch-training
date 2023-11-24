@@ -17,6 +17,7 @@ import IAuthManager from "./features/auth/interfaces/IAuthManager";
 import useAuthManager from "./features/auth/hooks/useAuthManager";
 import RequestManager, { TypeRequestManager } from "./features/others/classes/RequestManager";
 import UserRequestManager from "./features/others/classes/UserRequestManager";
+import useDeveloper from "./features/others/hooks/useDeveloper";
 interface DependencyContextType {
     keyPressManager: IKeyPressManager;
     trainManager: ITrainingManager;
@@ -62,6 +63,8 @@ export function DependencyProvider({ children }: DependencyProviderProps) {
     const trainRecorder = useTrainRecorder({ trainManager, trainRecordSaver });
     const authManager = useAuthManager(RequestManager);
     const userRequestManager = new UserRequestManager(RequestManager);
+
+    const developer = useDeveloper({authManager}); //TODO: 開発が終わったら消す
 
     const value: DependencyContextType = {
         keyPressManager,
