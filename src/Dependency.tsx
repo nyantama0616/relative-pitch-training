@@ -15,7 +15,8 @@ import { useSoundPlayerWithTone } from "./features/others/hooks/useSoundPlayerWi
 import ITrainRecordSaver from "./features/train/interfaces/ITrainRecordSaver";
 import IAuthManager from "./features/auth/interfaces/IAuthManager";
 import useAuthManager from "./features/auth/hooks/useAuthManager";
-import RequestManager, {TypeRequestManager} from "./features/others/classes/RequestManager";
+import RequestManager, { TypeRequestManager } from "./features/others/classes/RequestManager";
+import UserRequestManager from "./features/others/classes/UserRequestManager";
 interface DependencyContextType {
     keyPressManager: IKeyPressManager;
     trainManager: ITrainingManager;
@@ -26,6 +27,7 @@ interface DependencyContextType {
     questionGenerator: IQuestionGenerator;
     RequestManager: TypeRequestManager;
     authManager: IAuthManager;
+    userRequestManager: UserRequestManager;
 }
 
 const initialValue: DependencyContextType = {
@@ -38,6 +40,7 @@ const initialValue: DependencyContextType = {
     questionGenerator: null!,
     RequestManager: null!,
     authManager: null!,
+    userRequestManager: null!,
 };
 
 const DependencyContext = React.createContext<DependencyContextType>(initialValue);
@@ -58,6 +61,7 @@ export function DependencyProvider({ children }: DependencyProviderProps) {
     const trainRecordSaver = useTrainRecordSaver(); //TODO: 消す
     const trainRecorder = useTrainRecorder({ trainManager, trainRecordSaver });
     const authManager = useAuthManager(RequestManager);
+    const userRequestManager = new UserRequestManager(RequestManager);
 
     const value: DependencyContextType = {
         keyPressManager,
@@ -69,6 +73,7 @@ export function DependencyProvider({ children }: DependencyProviderProps) {
         trainRecordSaver,
         RequestManager: RequestManager,
         authManager: authManager,
+        userRequestManager: userRequestManager,
     };
 
     return (

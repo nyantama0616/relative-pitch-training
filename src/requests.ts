@@ -5,6 +5,12 @@ const requests = {
         ping: "http://localhost:3000/test/ping",
         ping_with_message: "http://localhost:3000/test/ping_with_message",
         greet: "http://localhost:3000/test/greet",
+    },
+    auth: {
+        signup: "http://localhost:3000/signup",
+    },
+    user: {
+        all: "http://localhost:3000/users",
     }
 }
 
