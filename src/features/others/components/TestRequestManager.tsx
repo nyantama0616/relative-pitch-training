@@ -1,27 +1,31 @@
 import { SxProps } from "@mui/system";
 import { Box, Grid, Button } from "@mui/material";
 import {useDependency} from "../../../Dependency";
-// import BasicStatus from "../../interface/BasicStatus";
-import { useMemo } from "react";
-import BasicStatus from "../interfaces/BasicStatus";
 import requests from "../../../requests";
 import IRequestManager from "../interfaces/IRequestManager";
+import { useState } from "react";
 
 interface TestRequestManagerProps {
     sx?: SxProps
 }
 
 export default function TestRequestManager({sx}: TestRequestManagerProps) {
-    function _handleClickPing(requestManager: IRequestManager<any, any>) {
-        requestManager.get(requests.test.ping);
+    function _handleClickPing(requestManager: IRequestManager<any, any>, callback: (response: any) => void) {
+        requestManager
+            .get(requests.test.ping)
+            .then(callback);
     }
     
-    function _handleClickPingWithMessage(requestManager: IRequestManager<any, any>) {
-        requestManager.get(requests.test.ping_with_message, {message: "pon"});
+    function _handleClickPingWithMessage(requestManager: IRequestManager<any, any>, callback: (response: any) => void) {
+        requestManager
+            .get(requests.test.ping_with_message, { message: "pon" })
+            .then(callback);
     }
     
-    function _handleClickGreet(requestManager: IRequestManager<any, any>) {
-        requestManager.post(requests.test.greet, {name: "panda"});
+    function _handleClickGreet(requestManager: IRequestManager<any, any>, callback: (response: any) => void) {
+        requestManager
+            .post(requests.test.greet, { name: "panda" })
+            .then(callback);
     }
 
     return (
@@ -43,22 +47,26 @@ export default function TestRequestManager({sx}: TestRequestManagerProps) {
 
 interface ComponentProps {
     route: string
-    onClick: (requestManager: IRequestManager<any, any>) => void,
+    onClick: (requestManager: IRequestManager<any, any>, callback: (response: any)=> void) => void,
     sx?: SxProps
 }
 function Component({route, onClick, sx}: ComponentProps) {
     const {useRequestManager} = useDependency();
     const requestManager = useRequestManager<null, any>();
-    const message = useMemo(() => requestManager.status === BasicStatus.Success ? requestManager.data!.message : "none", [requestManager.status]);
+    const [message, setMessage] = useState("none");
 
+    // OPTIMISE: ↓こいつのせいでクソややこしい設計になってる
     function _handleClick() {
-        onClick(requestManager); //ややこしｗ
+        onClick(requestManager, (response: any) => {
+            setMessage(_ => {
+                return response === null ? "none" : response.message;
+            })
+        });
     }
 
     return (
         <Box component="div">
             <h1>{route}</h1>
-            <p>status: {requestManager.status}</p>
             <p>message: {message}</p>
             <Button variant="contained" onClick={_handleClick}>Send</Button>
         </Box>

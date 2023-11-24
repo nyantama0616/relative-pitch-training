@@ -1,43 +1,38 @@
 //こいつだけjestでテストするのは難しいので、違う方法でテストする
-import { useState } from 'react';
 import IRequestManager from '../interfaces/IRequestManager';
-import BasicStatus from '../interfaces/BasicStatus';
 import axios from 'axios';
 
+//TODO: stateじゃなくてpromiseにしたから、hookである必要がないかも
 export default function useRequestManager<Request, Response>(): IRequestManager<Request, Response> {
-    const [status, setStatus] = useState<BasicStatus>(BasicStatus.None);
-    const [data, setData] = useState<Response | null>(null);
-
-    function get(url: string, data?: Request) {
-        setStatus(BasicStatus.Doing);
-        axios
-            .get(url, {params: data})
-            .then(res => {
-                setData(res.data);
-                setStatus(BasicStatus.Success);
-            })
-            .catch(res => {
-                setStatus(BasicStatus.Failed);
-            });
+    
+    async function get(url: string, data?: Request): Promise<Response | null> {
+        return new Promise<Response | null>((resolve, reject) => {
+            axios
+                .get(url, {params: data})
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(res => {
+                   reject(null); 
+                });
+        });
     }
 
-    function post(url: string, data?: Request) {
-        setStatus(BasicStatus.Doing);
-        axios
-            .post(url, data)
-            .then(res => {
-                setData(res.data);
-                setStatus(BasicStatus.Success);
-            })
-            .catch(res => {
-                setStatus(BasicStatus.Failed);
-            });
+    async function post(url: string, data?: Request): Promise<Response | null> {
+        return new Promise<Response | null>((resolve, reject) => {
+            axios
+                .post(url, data)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(res => {
+                    reject(null); 
+                });
+        });
     }
 
     return {
         get,
         post,
-        status,
-        data,
     }
 }
