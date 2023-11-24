@@ -1,7 +1,7 @@
-import User from "./User";
+import IUser from "./IUser";
 
 export default interface IAuthManager {
-    currentUser: User | null;
+    currentUser: IUser | null;
     
     isAuthorized(): boolean;
     signUp(email: string, password: string): Promise<boolean>;

@@ -1,7 +1,7 @@
-import User from "../../auth/interfaces/User";
+import IUser from "../../auth/interfaces/IUser";
 
 export default interface IUserRequestManager {
     fetchAllUsers(): Promise<FetchAllUsersResponse | null>;
 }
 
-export type FetchAllUsersResponse = User[];
+export type FetchAllUsersResponse = IUser[];
