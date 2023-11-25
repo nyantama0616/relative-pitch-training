@@ -3,11 +3,11 @@ import IKeyPressManager from "./features/others/interfaces/IKeyPressManager";
 import ITrainingManager from "./features/train/interfaces/ITrainingManager";
 import ITrainRecorder from "./features/train/interfaces/ITrainRecorder";
 import IMidiIO from "./features/others/interfaces/IMidiIO";
-import IQuestionGenerator from "./features/train/interfaces/IQuestionGenerator";
 import useKeyPressManager from "./features/others/hooks/useKeyPressManager";
 import useTrainingManager from "./features/train/hooks/useTrainingManager";
 import useTrainRecorder from "./features/train/hooks/useTrainRecorder";
 import useMidiIO from "./features/others/hooks/useMidiIO";
+import useMidiIOMock from "./features/others/hooks/useMidiIOMock";
 import QuestionGeneratorRandom from "./features/train/classes/QuestionGeneratorRandom";
 import useTrainRecordSaver from "./features/train/hooks/useTrainRecordSaver";
 import ISoundPlayer from "./features/others/interfaces/ISoundPlayer";
@@ -25,7 +25,6 @@ interface DependencyContextType {
     trainRecordSaver: ITrainRecordSaver; //TODO: 消す
     midiIO: IMidiIO;
     soundPlayer: ISoundPlayer
-    questionGenerator: IQuestionGenerator;
     RequestManager: TypeRequestManager;
     authManager: IAuthManager;
     userRequestManager: UserRequestManager;
@@ -38,7 +37,6 @@ const initialValue: DependencyContextType = {
     trainRecordSaver: null!, //TODO: 消す
     midiIO: null!,
     soundPlayer: null!,
-    questionGenerator: null!,
     RequestManager: null!,
     authManager: null!,
     userRequestManager: null!,
@@ -54,11 +52,11 @@ interface DependencyProviderProps {
     children: React.ReactNode
 }
 export function DependencyProvider({ children }: DependencyProviderProps) {
-    const midiIO = useMidiIO();
-    const soundPlayer = useSoundPlayerWithTone();
-    const questionGenerator = new QuestionGeneratorRandom();
+    // const midiIO = useMidiIO();
     const keyPressManager = useKeyPressManager();
-    const trainManager = useTrainingManager({ midiIO, soundPlayer, questionGenerator });
+    const midiIO = useMidiIOMock(keyPressManager);
+    const soundPlayer = useSoundPlayerWithTone();
+    const trainManager = useTrainingManager({ midiIO, soundPlayer, QuestionGenerator: QuestionGeneratorRandom });
     const trainRecordSaver = useTrainRecordSaver(); //TODO: 消す
     const trainRecorder = useTrainRecorder({ trainManager, trainRecordSaver });
     const authManager = useAuthManager(RequestManager);
@@ -72,7 +70,7 @@ export function DependencyProvider({ children }: DependencyProviderProps) {
         trainRecorder,
         midiIO,
         soundPlayer,
-        questionGenerator,
+        // questionGenerator,
         trainRecordSaver,
         RequestManager: RequestManager,
         authManager: authManager,

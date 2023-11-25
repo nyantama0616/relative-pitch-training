@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import ITrainingManager from "../interfaces/ITrainingManager";
-import IQuestionGenerator, { IQuestion } from "../interfaces/IQuestionGenerator";
+import { IQuestion } from "../interfaces/IQuestionGenerator";
+import QuestionGeneratorRandom from "../classes/QuestionGeneratorRandom";
 import Note from "../../../Note";
 import { MessageType } from "../../others/interfaces/IMidiMessage";
 import IMidiIO from "../../others/interfaces/IMidiIO";
@@ -24,11 +25,13 @@ const initialTrainState: TrainStates = {
 
 interface Props {
     midiIO: IMidiIO
-    questionGenerator: IQuestionGenerator,
+    QuestionGenerator: typeof QuestionGeneratorRandom,
     soundPlayer: ISoundPlayer
 }
-export default function useTrainingManager({midiIO, questionGenerator, soundPlayer}: Props): ITrainingManager {
+export default function useTrainingManager({midiIO, QuestionGenerator, soundPlayer}: Props): ITrainingManager {
     const INTERVAL = 500; //tempo(ms)
+    const N = 5; //各音を提示する回数
+    const questionGenerator = new QuestionGenerator(N);
 
     //states
     const [state, setState] = useState<TrainStates>(initialTrainState);
